@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South African Digital Pulse | Home</title>
+
+    <!-- I'm linking my CSS files here -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- I'm using Google Fonts as specified in my design document -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Josefin+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation will be loaded here by JavaScript -->
+    <!-- I'm using a container div so JavaScript can inject the navigation -->
+    <div id="nav-container"></div>
+
+    <main class="main-content">
+        <!-- Hero section - this is the first thing users see -->
+        <section class="hero-section">
+            <div class="hero-text">
+                <h1>South African Digital Pulse</h1>
+                <p class="tagline">Connecting creative minds across South Africa</p>
+                <button class="cta-button" id="exploreButton">Explore Our Community</button>
+            </div>
+
+            <!-- Visual element for the hero section -->
+            <div class="hero-visual">
+                <!-- I'm using SVG for scalable graphics that won't pixelate -->
+                <svg class="cultural-svg" width="250" height="250" viewBox="0 0 100 100">
+                    <!-- This path represents a cultural pattern inspired by African designs -->
+                    <path id="cultural-path" d="M20,50 C40,30 60,30 80,50 C60,70 40,70 20,50" fill="none"
+                        stroke="#7F3C3C" stroke-width="2" />
+                    <!-- This circle will be animated to follow the path -->
+                    <circle id="animated-dot" r="3" fill="#3C7F7F" />
+                </svg>
+            </div>
+        </section>
+
+        <!-- Featured news section - this displays live South African news -->
+        <section class="featured-news" id="newsSection">
+            <header class="section-header">
+                <h2>Latest from South Africa</h2>
+                <p>Stay updated with current events and creative developments</p>
+            </header>
+
+            <!-- Search functionality for filtering news -->
+            <div class="search-container">
+                <input type="text" id="newsSearch" placeholder="Search news articles..."
+                    aria-label="Search news articles">
+                <button id="searchButton" type="button">Search</button>
+            </div>
+
+            <!-- Container where news articles will be dynamically loaded -->
+            <div class="news-grid" id="newsContainer">
+                <!-- JavaScript will populate this with news articles from the API -->
+                <p class="loading-message">Loading latest news...</p>
+            </div>
+        </section>
+
+        <!-- Community highlights section -->
+        <section class="community-highlights">
+            <h2>Community Features</h2>
+            <div class="highlights-grid">
+                <article class="feature-card">
+                    <h3>Artist Spotlights</h3>
+                    <p>Discover talented South African digital artists and their work</p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Creative Resources</h3>
+                    <p>Tools, tutorials, and guides for digital creators</p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Local Events</h3>
+                    <p>Exhibitions, workshops, and meetups in your area</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 South African Digital Pulse. Created for educational purposes.</p>
+    </footer>
+
+    <!-- I'm loading GSAP for animations as required by the brief -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- My custom JavaScript files -->
+    <script src="js/navigation.js"></script>
+    <script src="js/news-loader.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+
+</html>

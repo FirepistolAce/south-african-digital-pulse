@@ -1,162 +1,272 @@
-// news-loader.js - Handles NewsAPI integration and search functionality
-// This meets the requirement for dynamic search/filter with external API
+// news-loader.js - Fixed NewsAPI integration with CORS proxy and fallbacks
+// Using Rofhiwa's API key with proper error handling
 
 class NewsLoader {
     constructor() {
-        // API configuration - I'll use my actual key here for development
-        this.apiKey = 'e1c80e8ba2a94c0e9d0eaa7b7b4a4a1e'; // This is a demo key - replace with your actual NewsAPI key
-        this.baseUrl = 'https://newsapi.org/v2';
+        this.apiKey = '36510100e3484ceb852b91d206dd4805';
         this.articles = [];
-        this.currentFilter = 'all';
         
         // DOM elements
         this.newsContainer = document.getElementById('newsContainer');
         this.searchInput = document.getElementById('newsSearch');
         this.searchButton = document.getElementById('searchButton');
-        this.mediaSearch = document.getElementById('mediaSearch');
-        this.mediaSearchBtn = document.getElementById('mediaSearchBtn');
         
         this.init();
     }
 
     init() {
-        // Load news when the page loads
+        console.log('🚀 Initializing News Loader...');
         this.loadNews();
-        
-        // Set up event listeners for search functionality
         this.setupEventListeners();
-        
-        console.log('News loader initialized');
     }
 
     async loadNews() {
-        // Show loading state to users
         this.showLoadingState();
         
         try {
-            // Fetch top headlines from South Africa
-            const response = await fetch(
-                `${this.baseUrl}/top-headlines?country=za&pageSize=12&apiKey=${this.apiKey}`
+            // Try direct NewsAPI first
+            await this.fetchNewsDirect();
+        } catch (error) {
+            console.log('Direct API failed, trying CORS proxy...', error);
+            try {
+                // Try with CORS proxy
+                await this.fetchNewsWithProxy();
+            } catch (proxyError) {
+                console.log('CORS proxy also failed, using demo content...', proxyError);
+                // Fallback to demo content
+                this.showDemoContent();
+            }
+        }
+    }
+
+    async fetchNewsDirect() {
+        console.log('📡 Attempting direct NewsAPI call...');
+        
+        const url = `https://newsapi.org/v2/top-headlines?country=za&pageSize=8&apiKey=${this.apiKey}`;
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.status === 'ok' && data.articles) {
+            this.articles = data.articles.filter(article => 
+                article.title && article.title !== '[Removed]'
             );
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            
-            if (data.status === 'ok' && data.articles) {
-                // Filter out articles with [Removed] titles
-                this.articles = data.articles.filter(article => 
-                    article.title && article.title !== '[Removed]'
-                );
-                
+            if (this.articles.length > 0) {
+                console.log(`✅ Loaded ${this.articles.length} real articles`);
                 this.displayNews(this.articles);
-                console.log(`Loaded ${this.articles.length} news articles`);
             } else {
-                throw new Error('Invalid response from NewsAPI');
+                throw new Error('No valid articles found');
             }
+        } else {
+            throw new Error(data.message || 'Invalid API response');
+        }
+    }
+
+    async fetchNewsWithProxy() {
+        console.log('🔧 Trying CORS proxy approach...');
+        
+        // Using a CORS proxy to avoid browser restrictions
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const targetUrl = `https://newsapi.org/v2/top-headlines?country=za&pageSize=6&apiKey=${this.apiKey}`;
+        
+        const response = await fetch(proxyUrl + targetUrl, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Proxy fetch failed: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.status === 'ok' && data.articles) {
+            this.articles = data.articles.filter(article => 
+                article.title && article.title !== '[Removed]'
+            );
             
-        } catch (error) {
-            console.error('Error fetching news:', error);
-            this.showErrorState(error.message);
+            if (this.articles.length > 0) {
+                console.log(`✅ Loaded ${this.articles.length} articles via proxy`);
+                this.displayNews(this.articles);
+            } else {
+                throw new Error('No articles via proxy');
+            }
+        } else {
+            throw new Error('Proxy response invalid');
         }
     }
 
     displayNews(articles) {
         if (!this.newsContainer) return;
         
-        if (articles.length === 0) {
-            this.showNoResults();
-            return;
-        }
-
-        const newsHTML = articles.map((article, index) => `
-            <article class="news-card" data-index="${index}">
+        console.log('🎨 Displaying news articles...');
+        
+        const newsHTML = articles.map((article, index) => {
+            // Safe data handling
+            const imageUrl = article.urlToImage || this.getPlaceholderImage(index);
+            const title = article.title || 'Interesting News Story';
+            const description = article.description || 'Read more about this developing story...';
+            const source = article.source?.name || 'News Source';
+            const date = article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('en-ZA', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            }) : 'Recent';
+            
+            return `
+            <div class="news-card">
                 <div class="news-image">
-                    <img src="${article.urlToImage || 'assets/images/news-placeholder.jpg'}" 
-                         alt="${article.title}" 
-                         onerror="this.src='assets/images/news-placeholder.jpg'"
-                         loading="lazy">
+                    <img src="${imageUrl}" 
+                         alt="${title}"
+                         loading="lazy"
+                         onerror="this.src='${this.getPlaceholderImage(index)}'">
                 </div>
                 <div class="news-content">
-                    <span class="news-source">${article.source?.name || 'News Source'}</span>
-                    <h3>${article.title || 'No title available'}</h3>
-                    <p>${article.description || 'No description available.'}</p>
+                    <div class="news-source">${source}</div>
+                    <h3>${title}</h3>
+                    <p>${description}</p>
                     <div class="news-meta">
-                        <span class="publish-date">
-                            ${article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('en-ZA') : 'Date unknown'}
-                        </span>
-                        ${article.author ? `<span class="author">By ${article.author}</span>` : ''}
+                        <span class="news-date">${date}</span>
+                        ${article.author ? `<span class="news-author">By ${article.author}</span>` : ''}
                     </div>
-                    <a href="${article.url}" target="_blank" rel="noopener" class="read-more">
-                        Read Full Article ↗
+                    <a href="${article.url || '#'}" target="_blank" rel="noopener" class="read-more">
+                        Read Full Story ↗
                     </a>
                 </div>
-            </article>
-        `).join('');
+            </div>
+            `;
+        }).join('');
 
         this.newsContainer.innerHTML = newsHTML;
-        
-        // Animate the news cards after they're loaded
         this.animateNewsCards();
     }
 
+    getPlaceholderImage(index) {
+        // Different placeholder images based on index
+        const colors = ['7F3C3C', '3C7F7F', '5FAFAF', '2C5530', 'F2C94C'];
+        const color = colors[index % colors.length];
+        return `https://via.placeholder.com/400x200/${color}/FFFFFF?text=South+African+News`;
+    }
+
+    showDemoContent() {
+        console.log('📋 Showing demo content...');
+        
+        const demoArticles = [
+            {
+                title: "South African Digital Arts Festival 2025 Announced",
+                description: "Johannesburg to host the largest gathering of digital artists in Southern Africa, featuring workshops and exhibitions.",
+                source: { name: "Arts Council SA" },
+                publishedAt: new Date().toISOString(),
+                url: "#",
+                author: "Cultural Reporter",
+                urlToImage: this.getPlaceholderImage(0)
+            },
+            {
+                title: "Cape Town Tech Startups Secure Major Funding",
+                description: "Local technology companies receive investment to expand digital innovation across the continent.",
+                source: { name: "Tech Innovation ZA" },
+                publishedAt: new Date().toISOString(),
+                url: "#",
+                author: "Business Correspondent",
+                urlToImage: this.getPlaceholderImage(1)
+            },
+            {
+                title: "New Digital Museum Showcases African Heritage",
+                description: "Interactive museum in Pretoria uses VR and AR to bring South African history to life for visitors.",
+                source: { name: "Heritage News" },
+                publishedAt: new Date().toISOString(),
+                url: "#",
+                author: "Education Desk",
+                urlToImage: this.getPlaceholderImage(2)
+            },
+            {
+                title: "Young Coders Compete in National Hackathon",
+                description: "Students from across South Africa develop solutions to local challenges using technology.",
+                source: { name: "Youth Tech" },
+                publishedAt: new Date().toISOString(),
+                url: "#",
+                author: "Student Reporter",
+                urlToImage: this.getPlaceholderImage(3)
+            },
+            {
+                title: "SA Film Industry Embraces Digital Innovation",
+                description: "Local filmmakers adopt new digital techniques to tell authentic South African stories.",
+                source: { name: "Creative Industries" },
+                publishedAt: new Date().toISOString(),
+                url: "#",
+                author: "Entertainment Editor",
+                urlToImage: this.getPlaceholderImage(4)
+            },
+            {
+                title: "Digital Literacy Program Expands to Rural Areas",
+                description: "Initiative brings technology education and resources to underserved communities nationwide.",
+                source: { name: "Community Development" },
+                publishedAt: new Date().toISOString(),
+                url: "#",
+                author: "Social Affairs",
+                urlToImage: this.getPlaceholderImage(5)
+            }
+        ];
+        
+        this.articles = demoArticles;
+        this.displayNews(demoArticles);
+        
+        // Add demo notice
+        const demoNotice = document.createElement('div');
+        demoNotice.className = 'demo-notice';
+        demoNotice.innerHTML = `
+            <p>💡 <strong>Demo Mode:</strong> Showing sample South African news content.</p>
+            <p>Real news will load automatically when the API connection is available.</p>
+        `;
+        this.newsContainer.insertBefore(demoNotice, this.newsContainer.firstChild);
+    }
+
     setupEventListeners() {
-        // Home page search
+        // Search functionality
         if (this.searchButton && this.searchInput) {
             this.searchButton.addEventListener('click', () => {
-                this.searchNews(this.searchInput.value);
+                this.handleSearch(this.searchInput.value);
+            });
+            
+            this.searchInput.addEventListener('input', (e) => {
+                if (e.target.value === '') {
+                    this.displayNews(this.articles);
+                }
             });
             
             this.searchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
-                    this.searchNews(this.searchInput.value);
+                    this.handleSearch(this.searchInput.value);
                 }
             });
         }
-        
-        // Media page search
-        if (this.mediaSearchBtn && this.mediaSearch) {
-            this.mediaSearchBtn.addEventListener('click', () => {
-                this.searchNews(this.mediaSearch.value);
-            });
-            
-            this.mediaSearch.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    this.searchNews(this.mediaSearch.value);
-                }
-            });
-        }
-        
-        // Filter buttons on media page
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const filter = button.getAttribute('data-filter');
-                this.filterNews(filter);
-                
-                // Update active state
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-            });
-        });
     }
 
-    searchNews(query) {
+    handleSearch(query) {
         if (!query.trim()) {
-            // If search is empty, show all articles
             this.displayNews(this.articles);
             return;
         }
         
-        const filtered = this.articles.filter(article => 
-            (article.title && article.title.toLowerCase().includes(query.toLowerCase())) ||
-            (article.description && article.description.toLowerCase().includes(query.toLowerCase())) ||
-            (article.content && article.content.toLowerCase().includes(query.toLowerCase()))
-        );
+        const searchTerm = query.trim().toLowerCase();
+        const filtered = this.articles.filter(article => {
+            const searchableText = `
+                ${article.title || ''} 
+                ${article.description || ''} 
+                ${article.source?.name || ''}
+            `.toLowerCase();
+            
+            return searchableText.includes(searchTerm);
+        });
         
-        this.displaySearchResults(filtered, query);
+        this.displaySearchResults(filtered, searchTerm);
     }
 
     displaySearchResults(articles, query) {
@@ -164,78 +274,56 @@ class NewsLoader {
         
         if (articles.length === 0) {
             this.newsContainer.innerHTML = `
-                <div class="no-results">
-                    <h3>No articles found</h3>
-                    <p>No news articles match "${query}". Try different keywords.</p>
-                    <button class="view-all-btn" onclick="newsLoader.loadNews()">Show All News</button>
+                <div class="search-results-message">
+                    <h3>🔍 No matches found</h3>
+                    <p>No articles found for "<strong>${query}</strong>"</p>
+                    <button class="retry-btn" onclick="newsLoader.displayNews(newsLoader.articles)">
+                        Show All Articles
+                    </button>
                 </div>
             `;
             return;
         }
         
-        const resultsHTML = articles.map((article, index) => `
-            <article class="news-card" data-index="${index}">
-                <div class="news-content">
-                    <span class="search-highlight">Search results for: "${query}"</span>
-                    <h3>${this.highlightText(article.title, query)}</h3>
-                    <p>${this.highlightText(article.description, query)}</p>
-                    <div class="news-meta">
-                        <span>Source: ${article.source?.name || 'Unknown'}</span>
+        const resultsHTML = `
+            <div class="search-results-header">
+                <h3>🔍 Search Results</h3>
+                <p>Found ${articles.length} articles for "${query}"</p>
+                <button class="retry-btn" onclick="newsLoader.displayNews(newsLoader.articles)">
+                    Clear Search
+                </button>
+            </div>
+            ${articles.map(article => `
+                <div class="news-card">
+                    <div class="news-content">
+                        <h3>${this.highlightText(article.title, query)}</h3>
+                        <p>${this.highlightText(article.description, query)}</p>
+                        <div class="news-meta">
+                            <span>Source: ${article.source?.name}</span>
+                        </div>
+                        <a href="${article.url || '#'}" target="_blank" class="read-more">
+                            Read Article ↗
+                        </a>
                     </div>
-                    <a href="${article.url}" target="_blank" rel="noopener" class="read-more">
-                        Read Article ↗
-                    </a>
                 </div>
-            </article>
-        `).join('');
+            `).join('')}
+        `;
         
         this.newsContainer.innerHTML = resultsHTML;
         this.animateNewsCards();
     }
 
     highlightText(text, query) {
-        if (!text || !query) return text || '';
-        const regex = new RegExp(`(${this.escapeRegex(query)})`, 'gi');
-        return text.replace(regex, '<mark class="search-match">$1</mark>');
-    }
-
-    escapeRegex(string) {
-        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }
-
-    filterNews(category) {
-        // For now, we'll use a simple client-side filter
-        // In a real implementation, this would filter by article category
-        this.currentFilter = category;
-        
-        if (category === 'all') {
-            this.displayNews(this.articles);
-        } else {
-            // Simple filtering based on source or content
-            const filtered = this.articles.filter(article => 
-                article.source?.name?.toLowerCase().includes(category) ||
-                article.title?.toLowerCase().includes(category) ||
-                article.description?.toLowerCase().includes(category)
-            );
-            this.displayNews(filtered);
-        }
+        if (!text || !query) return text;
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<mark class="search-highlight">$1</mark>');
     }
 
     animateNewsCards() {
-        // Use GSAP to animate news cards with stagger effect
         if (typeof gsap !== 'undefined') {
             gsap.fromTo('.news-card', 
-                { 
-                    y: 30, 
-                    opacity: 0 
-                },
-                { 
-                    y: 0, 
-                    opacity: 1, 
-                    duration: 0.6, 
-                    stagger: 0.1,
-                    ease: "power2.out"
-                }
+                { y: 30, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: "power2.out" }
             );
         }
     }
@@ -245,45 +333,129 @@ class NewsLoader {
             this.newsContainer.innerHTML = `
                 <div class="loading-state">
                     <div class="loading-spinner"></div>
-                    <p>Loading latest South African news...</p>
-                </div>
-            `;
-        }
-    }
-
-    showErrorState(errorMessage) {
-        if (this.newsContainer) {
-            this.newsContainer.innerHTML = `
-                <div class="error-state">
-                    <h3>Unable to Load News</h3>
-                    <p>We're having trouble loading the latest news. This might be due to:</p>
-                    <ul>
-                        <li>API rate limit reached</li>
-                        <li>Network connection issues</li>
-                        <li>Temporary service outage</li>
-                    </ul>
-                    <p>Error details: ${errorMessage}</p>
-                    <button class="view-all-btn" onclick="newsLoader.loadNews()">Try Again</button>
-                </div>
-            `;
-        }
-    }
-
-    showNoResults() {
-        if (this.newsContainer) {
-            this.newsContainer.innerHTML = `
-                <div class="no-results">
-                    <h3>No News Available</h3>
-                    <p>There are no news articles to display at the moment.</p>
-                    <p>Please check back later or try refreshing the page.</p>
+                    <h3>Loading South African News</h3>
+                    <p>Fetching the latest stories from across the country...</p>
+                    <div class="loading-steps">
+                        <span class="loading-step">🔌 Connecting to news source...</span>
+                        <span class="loading-step">📡 Retrieving latest headlines...</span>
+                        <span class="loading-step">🎨 Preparing your news feed...</span>
+                    </div>
                 </div>
             `;
         }
     }
 }
 
-// Initialize news loader when DOM is ready
+// Add enhanced styles
+const enhancedStyles = `
+.loading-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #7F3C3C10 0%, #3C7F7F10 100%);
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.loading-spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3C7F7F;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 25px;
+}
+
+.loading-steps {
+    margin-top: 25px;
+}
+
+.loading-step {
+    display: block;
+    margin: 8px 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.demo-notice {
+    background: linear-gradient(135deg, #FFF3CD 0%, #FFEAA7 100%);
+    border: 2px solid #F2C94C;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(242, 201, 76, 0.2);
+}
+
+.demo-notice p {
+    margin: 8px 0;
+}
+
+.search-results-message, .search-results-header {
+    text-align: center;
+    padding: 30px 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    grid-column: 1 / -1;
+}
+
+.retry-btn {
+    background: #3C7F7F;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.3s ease;
+}
+
+.retry-btn:hover {
+    background: #5FAFAF;
+}
+
+.search-highlight {
+    background: #FFF3CD;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: 600;
+}
+
+.news-image img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}
+
+.news-source {
+    background: #7F3C3C;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+`;
+
+// Inject styles
+const styleElement = document.createElement('style');
+styleElement.textContent = enhancedStyles;
+document.head.appendChild(styleElement);
+
+// Initialize
 let newsLoader;
 document.addEventListener('DOMContentLoaded', () => {
     newsLoader = new NewsLoader();
+    window.newsLoader = newsLoader;
 });
+
+console.log('✅ News Loader script loaded successfully');

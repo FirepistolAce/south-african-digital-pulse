@@ -680,4 +680,4 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('❌ TEST FAILED: communityManager not working properly');
             }
         }, 1000);
-    }
+    } })

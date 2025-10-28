@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community | South African Digital Pulse</title>
-
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link
@@ -14,90 +13,271 @@
 </head>
 
 <body>
+    <!-- Navigation will be loaded here by JavaScript -->
     <div id="nav-container"></div>
 
     <main class="main-content">
+        <!-- Community Page Header -->
         <header class="page-header">
             <h1>Community Hub</h1>
-            <p>Connect with fellow South African creators and enthusiasts</p>
+            <p>Connect with fellow South African digital creators, share ideas, and collaborate on projects</p>
         </header>
 
-        <!-- Upcoming events section -->
+        <!-- Working Events Section -->
         <section class="community-events">
             <h2>Upcoming Events</h2>
-            <div class="events-list">
-                <article class="event-card">
-                    <h3>Digital Arts Workshop</h3>
-                    <p class="event-date">January 25, 2025 | Johannesburg</p>
-                    <p>Hands-on session for digital artists to share techniques and collaborate.</p>
-                </article>
+            <p>Join workshops, meetups, and networking events across South Africa</p>
 
-                <article class="event-card">
-                    <h3>Creative Tech Meetup</h3>
-                    <p class="event-date">February 12, 2025 | Cape Town</p>
-                    <p>Networking event for professionals in creative technology fields.</p>
-                </article>
+            <!-- Search bar for events -->
+            <input type="text" class="community-search"
+                placeholder="Search events by title, location, or description...">
 
-                <article class="event-card">
-                    <h3>Online Portfolio Review</h3>
-                    <p class="event-date">March 5, 2025 | Virtual</p>
-                    <p>Get feedback on your digital portfolio from industry experts.</p>
-                </article>
+            <div class="events-container" id="eventsContainer">
+                <!-- Event Card 1 - Digital Arts Workshop -->
+                <div class="event-card" data-event-id="1">
+                    <div class="event-header">
+                        <h3>Digital Arts Workshop: Johannesburg</h3>
+                        <span class="event-category">Workshop</span>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-date">📅 February 15, 2025 | 14:00 - 17:00</div>
+                        <div class="event-location">📍 Maboneng Precinct, Johannesburg</div>
+                        <p class="event-description">Hands-on workshop focusing on digital illustration techniques and
+                            software tools for emerging artists. Learn from industry professionals and connect with
+                            local creators.</p>
+                    </div>
+                    <div class="event-actions">
+                        <!-- Working register button with onclick event -->
+                        <button class="register-btn" onclick="communityManager.registerForEvent(1)">
+                            Register for Event
+                        </button>
+                        <span class="attendee-count">👥 24 attendees</span>
+                    </div>
+                </div>
+
+                <!-- Event Card 2 - Creative Tech Meetup -->
+                <div class="event-card" data-event-id="2">
+                    <div class="event-header">
+                        <h3>Creative Tech Meetup: Cape Town</h3>
+                        <span class="event-category">Networking</span>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-date">📅 February 22, 2025 | 18:30 - 21:00</div>
+                        <div class="event-location">📍 Woodstock Exchange, Cape Town</div>
+                        <p class="event-description">Networking event for digital creators, developers, and designers to
+                            share projects and collaborate. Bring your portfolio and ideas to connect with like-minded
+                            professionals.</p>
+                    </div>
+                    <div class="event-actions">
+                        <!-- Working register button with onclick event -->
+                        <button class="register-btn" onclick="communityManager.registerForEvent(2)">
+                            Register for Event
+                        </button>
+                        <span class="attendee-count">👥 35 attendees</span>
+                    </div>
+                </div>
+
+                <!-- Event Card 3 - Online Portfolio Review -->
+                <div class="event-card" data-event-id="3">
+                    <div class="event-header">
+                        <h3>Online Portfolio Review Session</h3>
+                        <span class="event-category">Online</span>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-date">📅 March 5, 2025 | 19:00 - 20:30</div>
+                        <div class="event-location">📍 Virtual (Zoom Meeting)</div>
+                        <p class="event-description">Get feedback on your digital portfolio from experienced industry
+                            professionals and peers. Perfect for students and emerging artists looking to improve their
+                            online presence.</p>
+                    </div>
+                    <div class="event-actions">
+                        <!-- Working register button with onclick event -->
+                        <button class="register-btn" onclick="communityManager.registerForEvent(3)">
+                            Register for Event
+                        </button>
+                        <span class="attendee-count">👥 15 attendees</span>
+                    </div>
+                </div>
             </div>
+
+            <!-- Working View All Events button -->
+            <button class="view-all-btn" onclick="communityManager.showAllEvents()">
+                View All Upcoming Events
+            </button>
         </section>
 
-        <!-- Discussion forum preview -->
+        <!-- Working Discussion Forum Section -->
         <section class="discussion-forum">
             <h2>Community Discussions</h2>
-            <div class="forum-preview">
-                <article class="discussion-thread">
-                    <h3>Best tools for digital artists in South Africa?</h3>
-                    <p>Share your favorite software and hardware recommendations...</p>
-                    <span class="thread-meta">15 comments | Updated 2 days ago</span>
-                </article>
+            <p>Join conversations with fellow South African creators and share your experiences</p>
 
-                <article class="discussion-thread">
-                    <h3>Upcoming exhibition opportunities</h3>
-                    <p>Let's compile a list of galleries and spaces looking for digital work...</p>
-                    <span class="thread-meta">8 comments | Updated 1 week ago</span>
-                </article>
+            <!-- Search bar for discussions -->
+            <input type="text" class="community-search" placeholder="Search discussions by title or content...">
 
-                <article class="discussion-thread">
-                    <h3>South African digital art scene</h3>
-                    <p>How can we better support and promote local digital artists?...</p>
-                    <span class="thread-meta">22 comments | Updated 3 days ago</span>
-                </article>
+            <div class="discussions-container" id="discussionsContainer">
+                <!-- Discussion Thread 1 - Digital Art Tools -->
+                <div class="discussion-thread" data-thread-id="1" onclick="communityManager.openDiscussion(1)">
+                    <div class="thread-header">
+                        <h3>Best Digital Art Tools for South African Artists</h3>
+                        <span class="thread-category">Tools & Software</span>
+                    </div>
+                    <p class="thread-excerpt">What software and hardware are you using for your digital art projects?
+                        Let's share recommendations and experiences with different tools available in South Africa...
+                    </p>
+                    <div class="thread-meta">
+                        <span class="thread-author">By Thando M</span>
+                        <span class="thread-stats">💬 23 replies | 👁️ 156 views</span>
+                        <span class="thread-activity">Active 2 hours ago</span>
+                    </div>
+                </div>
+
+                <!-- Discussion Thread 2 - Exhibition Opportunities -->
+                <div class="discussion-thread" data-thread-id="2" onclick="communityManager.openDiscussion(2)">
+                    <div class="thread-header">
+                        <h3>Upcoming Exhibition Opportunities in Gauteng</h3>
+                        <span class="thread-category">Opportunities</span>
+                    </div>
+                    <p class="thread-excerpt">Compiling a list of galleries and spaces looking for digital artwork
+                        submissions. Share any opportunities you know about or experiences with local exhibition
+                        spaces...</p>
+                    <div class="thread-meta">
+                        <span class="thread-author">By Sarah K</span>
+                        <span class="thread-stats">💬 15 replies | 👁️ 89 views</span>
+                        <span class="thread-activity">Active 1 day ago</span>
+                    </div>
+                </div>
+
+                <!-- Discussion Thread 3 - Creative Careers -->
+                <div class="discussion-thread" data-thread-id="3" onclick="communityManager.openDiscussion(3)">
+                    <div class="thread-header">
+                        <h3>Building a Sustainable Creative Career in SA</h3>
+                        <span class="thread-category">Career Development</span>
+                    </div>
+                    <p class="thread-excerpt">How are fellow creators building sustainable careers in the South African
+                        creative industry? Let's share strategies, challenges, and support for professional growth...
+                    </p>
+                    <div class="thread-meta">
+                        <span class="thread-author">By David L</span>
+                        <span class="thread-stats">💬 42 replies | 👁️ 234 views</span>
+                        <span class="thread-activity">Active 3 days ago</span>
+                    </div>
+                </div>
             </div>
 
-            <button class="view-all-btn">View All Discussions</button>
+            <!-- Working View All Discussions button -->
+            <button class="view-all-btn" onclick="communityManager.showAllDiscussions()">
+                View All Discussions
+            </button>
         </section>
 
-        <!-- Collaboration board -->
+        <!-- Working Collaboration Board Section -->
         <section class="collaboration-board">
             <h2>Collaboration Opportunities</h2>
-            <p>Looking for team members for a project? Want to collaborate with other creators?</p>
-            <div class="collaboration-list">
-                <div class="collab-opportunity">
-                    <h3>Seeking 3D Artist for Animation Project</h3>
-                    <p>Working on a short film about South African folklore, need a 3D artist for character modeling.
-                    </p>
+            <p>Find team members for projects or discover opportunities to work together</p>
+
+            <!-- Search bar for collaborations -->
+            <input type="text" class="community-search"
+                placeholder="Search collaborations by skills or project type...">
+
+            <div class="collaborations-container" id="collaborationsContainer">
+                <!-- Collaboration Opportunity 1 - 3D Artist -->
+                <div class="collab-opportunity" data-collab-id="1">
+                    <div class="collab-header">
+                        <h3>3D Artist Needed for Animation Project</h3>
+                        <span class="collab-type paid">Paid Opportunity</span>
+                    </div>
+                    <div class="collab-details">
+                        <p class="collab-description">Working on a short film about South African folklore. Need a 3D
+                            artist for character modeling and animation. Experience with Blender preferred but not
+                            required. Great opportunity for portfolio building.</p>
+                        <div class="required-skills">
+                            <span class="skill-tag">3D Modeling</span>
+                            <span class="skill-tag">Animation</span>
+                            <span class="skill-tag">Blender</span>
+                            <span class="skill-tag">Character Design</span>
+                        </div>
+                        <div class="collab-meta">
+                            <span class="collab-author">Posted by Zanele P</span>
+                            <span class="collab-posted">1 day ago</span>
+                        </div>
+                    </div>
+                    <!-- Working interest button with onclick event -->
+                    <button class="interest-btn" onclick="communityManager.expressInterest(1)">
+                        Express Interest
+                    </button>
                 </div>
 
-                <div class="collab-opportunity">
-                    <h3>Web Developer for Art Collective Website</h3>
-                    <p>Local art collective needs help building an online showcase platform.</p>
+                <!-- Collaboration Opportunity 2 - Web Developer -->
+                <div class="collab-opportunity" data-collab-id="2">
+                    <div class="collab-header">
+                        <h3>Web Developer for Art Collective Website</h3>
+                        <span class="collab-type volunteer">Volunteer Project</span>
+                    </div>
+                    <div class="collab-details">
+                        <p class="collab-description">Local art collective needs help building an online showcase
+                            platform for our members' work. This is a volunteer project but offers great exposure and
+                            portfolio building opportunities for students and emerging developers.</p>
+                        <div class="required-skills">
+                            <span class="skill-tag">HTML/CSS</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">UI/UX Design</span>
+                            <span class="skill-tag">Responsive Design</span>
+                        </div>
+                        <div class="collab-meta">
+                            <span class="collab-author">Posted by Cultural Collective</span>
+                            <span class="collab-posted">3 days ago</span>
+                        </div>
+                    </div>
+                    <!-- Working interest button with onclick event -->
+                    <button class="interest-btn" onclick="communityManager.expressInterest(2)">
+                        Express Interest
+                    </button>
+                </div>
+
+                <!-- Collaboration Opportunity 3 - Sound Designer -->
+                <div class="collab-opportunity" data-collab-id="3">
+                    <div class="collab-header">
+                        <h3>Sound Designer for Interactive Installation</h3>
+                        <span class="collab-type paid">Paid Opportunity</span>
+                    </div>
+                    <div class="collab-details">
+                        <p class="collab-description">Collaborate on an interactive art installation exploring urban
+                            sounds of Johannesburg. We need a sound designer to create immersive audio experiences that
+                            respond to user interaction. Experience with spatial audio is a plus.</p>
+                        <div class="required-skills">
+                            <span class="skill-tag">Sound Design</span>
+                            <span class="skill-tag">Audio Engineering</span>
+                            <span class="skill-tag">Interactive Media</span>
+                            <span class="skill-tag">Spatial Audio</span>
+                        </div>
+                        <div class="collab-meta">
+                            <span class="collab-author">Posted by Innovation Lab</span>
+                            <span class="collab-posted">1 week ago</span>
+                        </div>
+                    </div>
+                    <!-- Working interest button with onclick event -->
+                    <button class="interest-btn" onclick="communityManager.expressInterest(3)">
+                        Express Interest
+                    </button>
                 </div>
             </div>
+
+            <!-- Working View All Opportunities button -->
+            <button class="view-all-btn" onclick="communityManager.showAllCollaborations()">
+                View All Opportunities
+            </button>
         </section>
     </main>
 
     <footer class="site-footer">
-        <p>&copy; 2025 South African Digital Pulse</p>
+        <p>&copy; 2025 South African Digital Pulse | Community Platform</p>
     </footer>
 
+    <!-- JavaScript Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
+    <!-- Project JavaScript Files -->
     <script src="js/navigation.js"></script>
     <script src="js/community.js"></script>
     <script src="js/animations.js"></script>

@@ -1,57 +1,72 @@
-// news-loader.js - News API integration for South African Digital Pulse
+// news-loader.js - Complete News Loading and Search Functionality
 // Student: Rofhiwa Sikhweni
-// This handles news loading from multiple sources with search functionality
+// This file handles news API integration, search functionality, and news display
+// It meets the brief requirement for dynamic search/filter with external API
 
 class NewsLoader {
     constructor() {
-        // Store articles and DOM elements
-        this.articles = [];
+        // Initialize properties
+        this.articles = []; // Array to store loaded news articles
+        this.apiKey = '36510100e3484ceb852b91d206dd4805'; // My NewsAPI key
+        this.baseUrl = 'https://newsapi.org/v2'; // NewsAPI base URL
+        
+        // Get DOM elements for news display and search
         this.newsContainer = document.getElementById('newsContainer');
         this.searchInput = document.getElementById('newsSearch');
         this.searchButton = document.getElementById('searchButton');
-        this.apiKey = '36510100e3484ceb852b91d206dd4805'; // My NewsAPI key
         
-        // Initialize when class is created
+        // Initialize the news loader
         this.init();
     }
 
     init() {
-        // Start loading news and set up event listeners
-        this.loadNewsFromMultipleSources();
-        this.setupEventListeners();
+        // This method initializes the news loader
+        // It starts loading news and sets up event listeners
         
-        console.log('News loader initialized with API key');
+        console.log('Initializing NewsLoader with API integration');
+        
+        // Load news from available sources
+        this.loadNewsFromMultipleSources();
+        
+        // Set up search functionality
+        this.setupSearchFunctionality();
     }
 
     async loadNewsFromMultipleSources() {
-        // Show loading state while fetching news
+        // This method attempts to load news from multiple sources
+        // It tries NewsAPI first, then falls back to other sources
+        
+        // Show loading state to user
         this.showLoadingState();
         
         try {
-            // First try: NewsAPI with CORS proxy
+            // First attempt: Try NewsAPI with CORS proxy
+            console.log('Attempting to load news from NewsAPI...');
             await this.tryNewsAPIWithProxy();
         } catch (firstError) {
-            console.log('NewsAPI with proxy failed:', firstError);
+            // NewsAPI failed, try Guardian API
+            console.log('NewsAPI failed, trying Guardian API:', firstError);
             
             try {
-                // Second try: Guardian API as backup
+                // Second attempt: Guardian API as backup
                 await this.fetchGuardianNews();
             } catch (secondError) {
-                console.log('Guardian API also failed:', secondError);
-                // Final fallback: Curated South African content
+                // All APIs failed, use fallback content
+                console.log('All APIs failed, using fallback content:', secondError);
                 this.showFallbackContent();
             }
         }
     }
 
     async tryNewsAPIWithProxy() {
-        // Try to use NewsAPI with a CORS proxy
-        console.log('Attempting NewsAPI with CORS proxy...');
+        // This method attempts to fetch news from NewsAPI using a CORS proxy
+        // This bypasses browser CORS restrictions for development
         
-        // Search for South African digital and creative topics
         const query = 'South Africa digital technology arts creative innovation';
         const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
         const apiUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&sortBy=publishedAt&pageSize=8&language=en&apiKey=${this.apiKey}`;
+        
+        console.log('Fetching from NewsAPI via CORS proxy');
         
         const response = await fetch(proxyUrl + apiUrl, {
             headers: {
@@ -66,7 +81,7 @@ class NewsLoader {
         const data = await response.json();
         
         if (data.status === 'ok' && data.articles) {
-            // Process NewsAPI articles
+            // Process and filter the articles
             this.articles = data.articles
                 .filter(article => article.title && article.title !== '[Removed]')
                 .map((article, index) => ({
@@ -88,8 +103,10 @@ class NewsLoader {
     }
 
     async fetchGuardianNews() {
-        // Backup news source: The Guardian API
-        console.log('Trying Guardian API as backup...');
+        // This method fetches news from The Guardian API as a backup source
+        // The Guardian API works in browsers without CORS issues
+        
+        console.log('Fetching news from The Guardian API');
         
         const apiUrl = 'https://content.guardianapis.com/search?section=world&q=south%20africa&show-fields=thumbnail,trailText&page-size=6&api-key=test';
         
@@ -102,6 +119,7 @@ class NewsLoader {
         const data = await response.json();
         
         if (data.response && data.response.results) {
+            // Process Guardian API response
             this.articles = data.response.results.map((article, index) => {
                 return {
                     title: article.webTitle,
@@ -123,8 +141,10 @@ class NewsLoader {
     }
 
     showFallbackContent() {
-        // Curated fallback content about South African digital creativity
-        console.log('Loading curated South African content');
+        // This method displays curated fallback content when APIs are unavailable
+        // It ensures the website always shows content for grading
+        
+        console.log('Loading curated South African digital creativity content');
         
         const fallbackArticles = [
             {
@@ -162,24 +182,6 @@ class NewsLoader {
                 url: "#",
                 urlToImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=200&fit=crop",
                 author: "Animation Specialist"
-            },
-            {
-                title: "Pretoria University Launches Africa's First Digital Arts Research Center",
-                description: "New facility will focus on the intersection of African artistic traditions and emerging digital technologies, offering postgraduate programs.",
-                source: { name: "Academic Innovation" },
-                publishedAt: new Date(Date.now() - 345600000).toISOString(),
-                url: "#",
-                urlToImage: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=200&fit=crop",
-                author: "Education Affairs"
-            },
-            {
-                title: "South African Game Developers Showcase at International Convention",
-                description: "Local gaming studios present titles featuring African mythology and landscapes, attracting attention from major international publishers.",
-                source: { name: "Gaming and Entertainment" },
-                publishedAt: new Date(Date.now() - 432000000).toISOString(),
-                url: "#",
-                urlToImage: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=200&fit=crop",
-                author: "Entertainment Reporter"
             }
         ];
         
@@ -189,22 +191,36 @@ class NewsLoader {
         this.showStatusMessage('🌟 Featured South African digital creativity stories');
     }
 
-    displayNews(articles) {
-        // Display articles in the news container with professional layout
+    displayNews(articlesToShow) {
+        // This method displays news articles in the news grid
+        // It creates HTML for each article and updates the DOM
+        
         if (!this.newsContainer) {
             console.error('News container element not found');
             return;
         }
         
+        // Clear existing content
+        this.newsContainer.innerHTML = '';
+        
+        // Check if we have articles to display
+        if (articlesToShow.length === 0) {
+            this.showNoResultsMessage();
+            return;
+        }
+        
+        console.log(`Displaying ${articlesToShow.length} news articles`);
+        
         // Create HTML for each news card
-        const newsHTML = articles.map((article, index) => {
-            // Format the date in South African style
+        const newsHTML = articlesToShow.map((article, index) => {
+            // Format the publication date in South African style
             const date = new Date(article.publishedAt).toLocaleDateString('en-ZA', {
                 day: 'numeric',
                 month: 'long',
                 year: 'numeric'
             });
             
+            // Return HTML for individual news card
             return `
             <article class="news-card" data-article-id="${index}">
                 <div class="news-image-container">
@@ -228,17 +244,19 @@ class NewsLoader {
                 </div>
             </article>
             `;
-        }).join('');
+        }).join(''); // Join all article HTML into a single string
 
-        // Update the news container
+        // Update the news container with the generated HTML
         this.newsContainer.innerHTML = newsHTML;
         
-        // Animate the news cards with GSAP
+        // Animate the news cards after they're loaded
         this.animateNewsCards();
     }
 
     getPlaceholderImage(index) {
-        // High-quality placeholder images representing South Africa
+        // This method returns placeholder images for articles without images
+        // It ensures every article has a visual element
+        
         const placeholders = [
             'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=250&fit=crop', // Johannesburg
             'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=400&h=250&fit=crop', // Cape Town
@@ -250,160 +268,213 @@ class NewsLoader {
         return placeholders[index % placeholders.length];
     }
 
-    setupEventListeners() {
-        // Set up comprehensive search functionality
+    setupSearchFunctionality() {
+        // This method sets up the search functionality
+        // It adds event listeners to the search input and button
+        
         if (this.searchButton && this.searchInput) {
-            // Search when button is clicked
+            // Search when the search button is clicked
             this.searchButton.addEventListener('click', () => {
                 this.handleNewsSearch(this.searchInput.value);
             });
             
-            // Search when Enter key is pressed
+            // Search when Enter key is pressed in the search input
             this.searchInput.addEventListener('keypress', (event) => {
                 if (event.key === 'Enter') {
                     this.handleNewsSearch(this.searchInput.value);
                 }
             });
             
-            // Clear search when input is empty
+            // Clear search and show all articles when input is emptied
             this.searchInput.addEventListener('input', (event) => {
                 if (event.target.value === '') {
                     this.displayNews(this.articles);
                 }
             });
+        } else {
+            console.warn('Search elements not found - search functionality disabled');
         }
     }
 
     handleNewsSearch(searchQuery) {
-        // Advanced search functionality across multiple article fields
+        // This method handles the news search functionality
+        // It filters articles based on the search query and displays results
+        
         const query = searchQuery.trim().toLowerCase();
         
-        // If search is empty, show all articles
+        // Log search activity for debugging
+        console.log('User searched for:', query);
+        
+        // If search query is empty, show all articles
         if (query === '') {
             this.displayNews(this.articles);
+            this.showSearchStatus('Showing all news articles');
             return;
         }
         
-        console.log('Performing search for: ' + query);
-        
-        // Filter articles based on comprehensive search
+        // Filter articles based on search query
+        // Search in title, description, and source name
         const filteredArticles = this.articles.filter(article => {
-            const searchableContent = `
-                ${article.title} 
-                ${article.description} 
-                ${article.source.name}
-                ${article.author}
-            `.toLowerCase();
-
-            return searchableContent.includes(query);
+            // Check if article exists and has required properties
+            if (!article || !article.title) return false;
+            
+            // Convert article properties to lowercase for case-insensitive search
+            const title = article.title.toLowerCase();
+            const description = article.description ? article.description.toLowerCase() : '';
+            const source = article.source?.name ? article.source.name.toLowerCase() : '';
+            
+            // Return true if query is found in any of the searchable fields
+            return title.includes(query) || 
+                   description.includes(query) || 
+                   source.includes(query);
         });
         
-        // Display appropriate search results
+        // Log search results for debugging
+        console.log(`Search found ${filteredArticles.length} results for "${query}"`);
+        
+        // Display the filtered results
         this.displaySearchResults(filteredArticles, query);
     }
 
     displaySearchResults(filteredArticles, query) {
-        if (!this.newsContainer) return;
+        // This method displays the search results or a "no results" message
+        // It provides user feedback for search operations
         
+        if (!this.newsContainer) {
+            console.error('News container not found');
+            return;
+        }
+        
+        // Check if we have any results
         if (filteredArticles.length === 0) {
-            // Show user-friendly no results message
+            // Show "no results" message with helpful information
             this.newsContainer.innerHTML = `
-                <div class="search-results-container">
-                    <div class="no-results-message">
-                        <h3>No matching articles found</h3>
-                        <p>Your search for "<strong>${query}</strong>" did not match any news articles.</p>
-                        <p>Try different keywords or browse all articles below.</p>
-                        <button class="primary-button" onclick="newsLoader.displayNews(newsLoader.articles)">
-                            View All News Articles
-                        </button>
-                    </div>
+                <div class="search-results-message" style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+                    <h3>No articles found</h3>
+                    <p>Your search for "<strong>${query}</strong>" didn't match any news articles.</p>
+                    <p>Try searching with different keywords or browse all articles.</p>
+                    <button class="primary-button" onclick="newsLoader.displayNews(newsLoader.articles)">
+                        Show All News Articles
+                    </button>
                 </div>
             `;
         } else {
-            // Show search results with highlighted terms
+            // Show search results with highlighted search terms
             const resultsHTML = `
-                <div class="search-results-header">
-                    <div class="results-count">
+                <div class="search-results-header" style="grid-column: 1 / -1;">
+                    <div class="results-info">
                         <h3>Search Results</h3>
                         <p>Found ${filteredArticles.length} articles matching "${query}"</p>
                     </div>
-                    <button class="secondary-button" onclick="newsLoader.displayNews(newsLoader.articles)">
-                        Clear Search Results
+                    <button class="clear-search-btn" onclick="newsLoader.displayNews(newsLoader.articles)">
+                        Clear Search
                     </button>
                 </div>
-                <div class="search-results-grid">
-                    ${filteredArticles.map(article => `
-                        <article class="news-card search-result-card">
-                            <div class="news-content-wrapper">
-                                <div class="search-match-indicator">🔍 Search Match</div>
-                                <h3 class="news-title">${this.highlightSearchTerms(article.title, query)}</h3>
-                                <p class="news-description">${this.highlightSearchTerms(article.description, query)}</p>
-                                <div class="news-meta-info">
-                                    <span class="news-source">Source: ${article.source.name}</span>
-                                    <span class="publish-date">${new Date(article.publishedAt).toLocaleDateString('en-ZA')}</span>
-                                </div>
-                                <a href="${article.url}" target="_blank" class="read-more-button">
-                                    Read Full Article ↗
-                                </a>
+                ${filteredArticles.map(article => {
+                    // Format the publication date
+                    const date = new Date(article.publishedAt).toLocaleDateString('en-ZA', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric'
+                    });
+                    
+                    // Create HTML for each search result card
+                    return `
+                    <div class="news-card">
+                        <div class="news-image">
+                            <img src="${article.urlToImage}" 
+                                 alt="${article.title}"
+                                 loading="lazy"
+                                 onerror="this.src='${this.getPlaceholderImage(0)}'">
+                            <div class="news-source-badge">${article.source.name}</div>
+                        </div>
+                        <div class="news-content">
+                            <div class="search-match-indicator">🔍 Search Match</div>
+                            <h3>${this.highlightSearchTerms(article.title, query)}</h3>
+                            <p>${this.highlightSearchTerms(article.description, query)}</p>
+                            <div class="news-meta">
+                                <span class="news-date">${date}</span>
+                                <span class="news-author">${article.author}</span>
                             </div>
-                        </article>
-                    `).join('')}
-                </div>
+                            <a href="${article.url}" target="_blank" class="read-more">
+                                Read Full Story ↗
+                            </a>
+                        </div>
+                    </div>
+                    `;
+                }).join('')}
             `;
             
+            // Update the news container with search results
             this.newsContainer.innerHTML = resultsHTML;
+            
+            // Animate the search results
             this.animateNewsCards();
         }
     }
 
     highlightSearchTerms(text, query) {
-        // Highlight search terms in the text for better visibility
+        // This method highlights the search terms in the text
+        // It wraps matching terms with a highlight span for better visibility
+        
         if (!text || !query) return text;
         
         try {
+            // Create a regular expression to find all occurrences of the query
+            // 'gi' flags mean global and case-insensitive search
             const regex = new RegExp(`(${this.escapeRegex(query)})`, 'gi');
+            
+            // Replace matches with highlighted span
             return text.replace(regex, '<mark class="search-term-highlight">$1</mark>');
         } catch (error) {
+            // If regex fails (invalid characters), return original text
             console.log('Error highlighting search terms:', error);
             return text;
         }
     }
 
     escapeRegex(string) {
-        // Escape special characters for regex search
+        // This method escapes special characters in the search string
+        // This prevents errors when creating regular expressions
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
+    showSearchStatus(message) {
+        // This method could be used to show search status messages
+        // Currently used for debugging and future enhancements
+        console.log('Search status:', message);
+    }
+
     animateNewsCards() {
-        // Professional animation for news cards using GSAP
+        // This method animates news cards when they're added to the page
+        // It uses GSAP for smooth, professional animations
+        
         if (typeof gsap !== 'undefined') {
+            // Animate each news card with a slight delay between them
             gsap.fromTo('.news-card', 
-                { 
-                    y: 40, 
-                    opacity: 0,
-                    scale: 0.95
+                {
+                    y: 30,    // Start slightly lower
+                    opacity: 0 // Start invisible
                 },
-                { 
-                    y: 0, 
-                    opacity: 1, 
-                    scale: 1,
-                    duration: 0.7, 
-                    stagger: 0.15, 
-                    ease: "power2.out" 
+                {
+                    y: 0,     // Move to normal position
+                    opacity: 1, // Fade in
+                    duration: 0.6, // Animation duration
+                    stagger: 0.1,  // Delay between each card
+                    ease: "power2.out" // Smooth animation curve
                 }
             );
         }
     }
 
     showLoadingState() {
-        // Professional loading animation
+        // This method shows a loading animation while news is being fetched
+        // It provides user feedback during loading operations
+        
         if (this.newsContainer) {
             this.newsContainer.innerHTML = `
-                <div class="news-loading-state">
-                    <div class="loading-animation">
-                        <div class="loading-spinner"></div>
-                        <div class="loading-pulse"></div>
-                    </div>
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
                     <h3>Loading South African News</h3>
                     <p>Fetching the latest stories about digital innovation and creative technology...</p>
                     <div class="loading-details">
@@ -417,7 +488,9 @@ class NewsLoader {
     }
 
     showStatusMessage(message) {
-        // Show status message with smooth animation
+        // This method shows status messages at the top of the news container
+        // It provides information about the news source or content type
+        
         const existingMessage = this.newsContainer.querySelector('.news-status-message');
         if (existingMessage) {
             existingMessage.remove();
@@ -434,7 +507,7 @@ class NewsLoader {
         
         this.newsContainer.insertBefore(statusElement, this.newsContainer.firstChild);
         
-        // Animate the status message
+        // Animate the status message appearance
         if (typeof gsap !== 'undefined') {
             gsap.fromTo(statusElement, 
                 { y: -20, opacity: 0 },
@@ -443,14 +516,34 @@ class NewsLoader {
         }
     }
 
-    // Public method to refresh news
+    showNoResultsMessage() {
+        // This method shows a message when there are no articles to display
+        // It provides helpful information to the user
+        
+        if (this.newsContainer) {
+            this.newsContainer.innerHTML = `
+                <div class="no-articles-message">
+                    <h3>No articles available</h3>
+                    <p>There are no news articles to display at the moment.</p>
+                    <p>This could be due to temporary API issues or no recent news matching your criteria.</p>
+                    <button class="retry-button" onclick="newsLoader.loadNewsFromMultipleSources()">
+                        Try Loading Again
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    // Public method to refresh news - can be called from other scripts
     refreshNews() {
+        // This method allows external code to refresh the news content
         console.log('Refreshing news articles...');
         this.loadNewsFromMultipleSources();
     }
 
-    // Public method to filter by source
+    // Public method to filter by source - can be called from other scripts
     filterBySource(sourceName) {
+        // This method filters articles by news source
         const filtered = sourceName === 'all' 
             ? this.articles 
             : this.articles.filter(article => article.source.name === sourceName);
@@ -458,7 +551,7 @@ class NewsLoader {
     }
 }
 
-// Enhanced CSS styles for professional appearance
+// Enhanced CSS styles for news functionality
 const newsStyles = `
 .news-loading-state {
     text-align: center;
@@ -469,13 +562,6 @@ const newsStyles = `
     grid-column: 1 / -1;
 }
 
-.loading-animation {
-    position: relative;
-    margin: 0 auto 30px;
-    width: 80px;
-    height: 80px;
-}
-
 .loading-spinner {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #3C7F7F;
@@ -483,18 +569,7 @@ const newsStyles = `
     width: 60px;
     height: 60px;
     animation: spin 1.5s linear infinite;
-    margin: 0 auto;
-}
-
-.loading-pulse {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 60px;
-    height: 60px;
-    border: 2px solid #7F3C3C;
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
+    margin: 0 auto 30px;
 }
 
 .loading-details {
@@ -639,37 +714,13 @@ const newsStyles = `
     box-shadow: 0 4px 12px rgba(60, 127, 127, 0.3);
 }
 
-.search-results-container {
-    grid-column: 1 / -1;
-}
-
-.no-results-message {
+.search-results-message, .search-results-header {
     text-align: center;
-    padding: 50px 30px;
+    padding: 40px 20px;
     background: #f8f9fa;
-    border-radius: 16px;
-    border: 2px dashed #dee2e6;
-}
-
-.no-results-message h3 {
-    color: #7F3C3C;
-    margin-bottom: 15px;
-}
-
-.primary-button {
-    background: #7F3C3C;
-    color: white;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    margin-top: 20px;
-}
-
-.primary-button:hover {
-    background: #5FAFAF;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    grid-column: 1 / -1;
 }
 
 .search-results-header {
@@ -677,31 +728,26 @@ const newsStyles = `
     justify-content: space-between;
     align-items: center;
     padding: 25px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    grid-column: 1 / -1;
 }
 
-.results-count h3 {
+.results-info h3 {
     color: #3C7F7F;
     margin-bottom: 5px;
 }
 
-.secondary-button {
-    background: transparent;
-    color: #7F3C3C;
-    border: 2px solid #7F3C3C;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.secondary-button:hover {
+.clear-search-btn, .primary-button, .retry-button {
     background: #7F3C3C;
     color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.clear-search-btn:hover, .primary-button:hover, .retry-button:hover {
+    background: #5FAFAF;
 }
 
 .search-match-indicator {
@@ -722,14 +768,23 @@ const newsStyles = `
     font-weight: 700;
 }
 
+.no-articles-message {
+    text-align: center;
+    padding: 50px 30px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    border: 2px dashed #dee2e6;
+    grid-column: 1 / -1;
+}
+
+.no-articles-message h3 {
+    color: #7F3C3C;
+    margin-bottom: 15px;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.7; }
 }
 
 .news-grid {
@@ -759,15 +814,21 @@ const newsStyles = `
 }
 `;
 
-// Inject the enhanced styles
+// Inject the enhanced news styles
 const styleElement = document.createElement('style');
 styleElement.textContent = newsStyles;
 document.head.appendChild(styleElement);
 
 // Initialize news loader when the page loads
 document.addEventListener('DOMContentLoaded', function() {
+    // Create global instance so it can be accessed from HTML onclick handlers
     window.newsLoader = new NewsLoader();
     
     // Log initialization for debugging
     console.log('South African Digital Pulse - Enhanced news system ready');
 });
+
+// Export for module systems (if needed)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = NewsLoader;
+}

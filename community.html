@@ -28,9 +28,7 @@
             <h2>Upcoming Events</h2>
             <p>Join workshops, meetups, and networking events across South Africa</p>
 
-            <!-- Search bar for events -->
-            <input type="text" class="community-search"
-                placeholder="Search events by title, location, or description...">
+            <!-- Search bar will be added by JavaScript -->
 
             <div class="events-container" id="eventsContainer">
                 <!-- Event Card 1 - Digital Arts Workshop -->
@@ -111,8 +109,7 @@
             <h2>Community Discussions</h2>
             <p>Join conversations with fellow South African creators and share your experiences</p>
 
-            <!-- Search bar for discussions -->
-            <input type="text" class="community-search" placeholder="Search discussions by title or content...">
+            <!-- Search bar will be added by JavaScript -->
 
             <div class="discussions-container" id="discussionsContainer">
                 <!-- Discussion Thread 1 - Digital Art Tools -->
@@ -175,9 +172,7 @@
             <h2>Collaboration Opportunities</h2>
             <p>Find team members for projects or discover opportunities to work together</p>
 
-            <!-- Search bar for collaborations -->
-            <input type="text" class="community-search"
-                placeholder="Search collaborations by skills or project type...">
+            <!-- Search bar will be added by JavaScript -->
 
             <div class="collaborations-container" id="collaborationsContainer">
                 <!-- Collaboration Opportunity 1 - 3D Artist -->
@@ -281,6 +276,24 @@
     <script src="js/navigation.js"></script>
     <script src="js/community.js"></script>
     <script src="js/animations.js"></script>
+
+    <!-- Debug script to verify everything is working -->
+    <script>
+        console.log('🔍 DEBUG: Community page HTML loaded');
+        console.log('🔍 DEBUG: communityManager available:', typeof communityManager);
+        console.log('🔍 DEBUG: CommunityManager class available:', typeof CommunityManager);
+
+        // Test if buttons can be called directly
+        window.testCommunityManager = function () {
+            if (window.communityManager && typeof window.communityManager.registerForEvent === 'function') {
+                console.log('✅ SUCCESS: communityManager is working!');
+                return true;
+            } else {
+                console.log('❌ ERROR: communityManager not properly initialized');
+                return false;
+            }
+        }
+    </script>
 </body>
 
 </html>

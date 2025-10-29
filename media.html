@@ -2,67 +2,70 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Media & Content | South African Digital Pulse</title>
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Josefin+Sans:wght@300;400;500&display=swap"
-        rel="stylesheet">
+        rel="stylesheet" />
+    <meta name="description"
+        content="Media & creative content — explore digital art, local projects and curated media from South Africa." />
 </head>
 
 <body>
-    <div id="nav-container"></div>
+    <!-- Navigation placed by JS -->
+    <div id="nav-container" aria-live="polite"></div>
 
-    <main class="main-content">
-        <header class="page-header">
+    <main class="main-content" role="main">
+        <header class="page-header" role="banner">
             <h1>Media & Creative Content</h1>
-            <p>Explore South African digital art, news, and innovative projects</p>
+            <p>Explore South African digital art, projects, and curated media.</p>
         </header>
 
-        <!-- Filter controls for media content -->
-        <section class="filter-controls">
-            <h2>Browse Content</h2>
-            <div class="filter-options">
-                <button class="filter-btn active" data-filter="all">All Content</button>
-                <button class="filter-btn" data-filter="art">Digital Art</button>
-                <button class="filter-btn" data-filter="news">News</button>
-                <button class="filter-btn" data-filter="tech">Technology</button>
+        <!-- Filters -->
+        <section class="filter-controls" aria-labelledby="filter-heading">
+            <h2 id="filter-heading">Browse Content</h2>
+
+            <div class="filter-options" role="toolbar" aria-label="Filter content">
+                <button class="filter-btn active" data-filter="all" type="button">All Content</button>
+                <button class="filter-btn" data-filter="art" type="button">Digital Art</button>
+                <button class="filter-btn" data-filter="news" type="button">News</button>
+                <button class="filter-btn" data-filter="tech" type="button">Technology</button>
             </div>
 
-            <!-- Search for specific content -->
-            <div class="media-search">
-                <input type="text" id="mediaSearch" placeholder="Search media content...">
-                <button id="mediaSearchBtn">Search</button>
+            <div class="media-search" role="search" aria-label="Search media">
+                <label for="mediaSearch" class="visually-hidden">Search media</label>
+                <input id="mediaSearch" type="search" placeholder="Search media content..." />
+                <button id="mediaSearchBtn" type="button">Search</button>
             </div>
         </section>
 
-        <!-- Media gallery grid -->
-        <section class="media-gallery">
-            <div class="gallery-grid" id="mediaContainer">
-                <!-- Content will be loaded dynamically here -->
+        <!-- Gallery -->
+        <section class="media-gallery" aria-labelledby="gallery-heading">
+            <h2 id="gallery-heading" class="visually-hidden">Media Gallery</h2>
+            <div class="gallery-grid" id="mediaContainer" aria-live="polite">
                 <div class="loading-state">
                     <p>Loading media content...</p>
                 </div>
             </div>
         </section>
 
-        <!-- Featured artist section -->
-        <section class="featured-artist">
-            <h2>Featured South African Artist</h2>
+        <!-- Featured artist -->
+        <section class="featured-artist" aria-labelledby="artist-heading">
+            <h2 id="artist-heading">Featured South African Artist</h2>
             <article class="artist-profile">
                 <div class="artist-info">
                     <h3>Digital Art Spotlight</h3>
                     <p>This section highlights emerging South African digital artists and their contributions to the
                         creative landscape.</p>
-                    <p>As this platform grows, we'll feature interviews, portfolio showcases, and behind-the-scenes
-                        looks at local talent.</p>
+                    <p>Future improvements: artist interviews, portfolio embeds and short video features (to be added).
+                    </p>
                 </div>
                 <div class="artist-visual">
-                    <!-- Placeholder for artist work -->
-                    <div class="art-preview">
+                    <div class="art-preview" aria-hidden="true">
                         <p>Artist Portfolio Preview</p>
                     </div>
                 </div>
@@ -74,12 +77,13 @@
         <p>&copy; 2025 South African Digital Pulse</p>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/navigation.js" defer></script>
+    <script src="js/news-loader.js" defer></script>
+    <script src="js/animations.js" defer></script>
 
-    <script src="js/navigation.js"></script>
-    <script src="js/news-loader.js"></script>
-    <script src="js/animations.js"></script>
+    <noscript>
+        <p class="error-message">Enable JavaScript for full functionality (search, filters and dynamic content).</p>
+    </noscript>
 </body>
 
 </html>

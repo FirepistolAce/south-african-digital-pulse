@@ -2,61 +2,55 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>About Us | South African Digital Pulse</title>
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Josefin+Sans:wght@300;400;500&display=swap"
-        rel="stylesheet">
+        rel="stylesheet" />
+    <meta name="description"
+        content="About South African Digital Pulse — mission, vision and contact details for this student project." />
 </head>
 
 <body>
-    <div id="nav-container"></div>
+    <div id="nav-container" aria-live="polite"></div>
 
-    <main class="main-content">
+    <main class="main-content" role="main">
         <header class="page-header">
             <h1>About South African Digital Pulse</h1>
-            <p>Our mission to connect and support South Africa's creative community</p>
+            <p>Our mission to connect and support South Africa's creative community.</p>
         </header>
 
-        <!-- Mission and vision section -->
-        <section class="mission-section">
+        <section class="mission-section" aria-labelledby="mission-heading">
+            <h2 id="mission-heading">Our Mission</h2>
             <article class="mission-statement">
-                <h2>Our Mission</h2>
                 <p>South African Digital Pulse was created to bridge the gap between technology and creativity in South
                     Africa. We believe in the power of digital platforms to connect artists, foster collaboration, and
                     showcase local talent to the world.</p>
-
-                <p>As a student project developed for my web development course, this platform demonstrates how
-                    technology can serve cultural and creative communities.</p>
+                <p>This site is developed as a student project to demonstrate web development skills and a
+                    culturally-focused design approach.</p>
             </article>
 
-            <article class="vision-statement">
-                <h2>Our Vision</h2>
-                <p>We envision a thriving digital ecosystem where South African creators have the tools, connections,
-                    and opportunities to succeed both locally and globally.</p>
+            <article class="vision-statement" aria-labelledby="vision-heading">
+                <h2 id="vision-heading">Our Vision</h2>
+                <p>We envision a thriving digital ecosystem where South African creators have the tools, connections and
+                    opportunities to succeed locally and globally.</p>
             </article>
         </section>
 
-        <!-- Team information -->
-        <section class="team-section">
-            <h2>About the Developer</h2>
+        <section class="team-section" aria-labelledby="team-heading">
+            <h2 id="team-heading">About the Developer</h2>
             <div class="team-member">
                 <div class="member-info">
                     <h3>Rofhiwa Sikhweni</h3>
                     <p class="member-role">Student Developer & Designer</p>
-                    <p>This platform was developed as part of my Interactive Media degree, combining my interests in web
-                        development, South African culture, and digital creativity.</p>
-
-                    <p>As a student at the University of the Witwatersrand, I wanted to create a project that addresses
-                        real needs in our creative community while demonstrating the technical skills I've learned
-                        throughout my studies.</p>
+                    <p>This platform was developed as part of my Interactive Media degree to combine web development
+                        skills with cultural design research.</p>
                 </div>
-                <!-- Placeholder for developer photo or avatar -->
-                <div class="member-photo">
+                <div class="member-photo" aria-hidden="true">
                     <div class="photo-placeholder">
                         <p>Developer Photo</p>
                     </div>
@@ -64,62 +58,59 @@
             </div>
         </section>
 
-        <!-- Contact form section -->
-        <section class="contact-section">
-            <h2>Get In Touch</h2>
-            <p>Have questions, suggestions, or want to get involved? Send me a message!</p>
+        <section class="contact-section" aria-labelledby="contact-heading">
+            <h2 id="contact-heading">Get In Touch</h2>
+            <p>Have questions, suggestions, or want to get involved? Send a message using the form below.</p>
 
-            <form id="contactForm" class="contact-form" novalidate>
+            <form id="contactForm" class="contact-form" novalidate aria-describedby="formFeedback" autocomplete="on">
                 <div class="form-group">
                     <label for="userName">Your Name *</label>
-                    <input type="text" id="userName" name="name" required placeholder="Enter your full name">
-                    <span class="error-message" id="nameError"></span>
+                    <input type="text" id="userName" name="name" required placeholder="Enter your full name" />
+                    <span class="error-message" id="nameError" aria-live="polite"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="userEmail">Email Address *</label>
-                    <input type="email" id="userEmail" name="email" required placeholder="Enter your email address">
-                    <span class="error-message" id="emailError"></span>
+                    <input type="email" id="userEmail" name="email" required placeholder="Enter your email address" />
+                    <span class="error-message" id="emailError" aria-live="polite"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="userSubject">Subject</label>
-                    <input type="text" id="userSubject" name="subject" placeholder="What is this regarding?">
+                    <input type="text" id="userSubject" name="subject" placeholder="What is this regarding?" />
                 </div>
 
                 <div class="form-group">
                     <label for="userMessage">Your Message *</label>
                     <textarea id="userMessage" name="message" required
                         placeholder="Tell me about your project, question, or suggestion..." rows="5"></textarea>
-                    <span class="error-message" id="messageError"></span>
+                    <span class="error-message" id="messageError" aria-live="polite"></span>
                 </div>
 
                 <button type="submit" class="submit-btn">Send Message</button>
-
-                <div class="form-feedback" id="formFeedback"></div>
+                <div id="formFeedback" class="form-feedback" role="status" aria-live="polite"></div>
             </form>
         </section>
 
-        <!-- FAQ section -->
-        <section class="faq-section">
-            <h2>Frequently Asked Questions</h2>
+        <section class="faq-section" aria-labelledby="faq-heading">
+            <h2 id="faq-heading">Frequently Asked Questions</h2>
             <div class="faq-list">
                 <details class="faq-item">
                     <summary>Is this a real platform or a student project?</summary>
-                    <p>This is a functional student project developed for my web development course. While it
-                        demonstrates real functionality, it's primarily for educational purposes.</p>
+                    <p>This is a functional student project developed for an Interactive Media module. It demonstrates
+                        technical and design skills in a learning context.</p>
                 </details>
 
                 <details class="faq-item">
                     <summary>What technologies were used to build this site?</summary>
-                    <p>I used HTML5, CSS3, JavaScript, GSAP for animations, and integrated with external APIs. The site
-                        is fully responsive and follows web accessibility guidelines.</p>
+                    <p>I used HTML5, CSS3, JavaScript, GSAP for animations, and NewsAPI for content (when available).
+                        The site is responsive and accessibility-aware.</p>
                 </details>
 
                 <details class="faq-item">
                     <summary>Can I contribute content to this platform?</summary>
-                    <p>As this is a student project, content contributions aren't currently open. However, the structure
-                        demonstrates how such a platform could operate with community input.</p>
+                    <p>As a student project, contributions are not open; however the structure supports future community
+                        contributions through APIs or authenticated posting.</p>
                 </details>
             </div>
         </section>
@@ -129,12 +120,14 @@
         <p>&copy; 2025 South African Digital Pulse | Academic Project</p>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/navigation.js" defer></script>
+    <script src="js/form-validation.js" defer></script>
+    <script src="js/animations.js" defer></script>
 
-    <script src="js/navigation.js"></script>
-    <script src="js/form-validation.js"></script>
-    <script src="js/animations.js"></script>
+    <noscript>
+        <p class="error-message">This site requires JavaScript for full functionality (contact form validation and
+            animations). Please enable JavaScript in your browser.</p>
+    </noscript>
 </body>
 
 </html>

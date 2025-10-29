@@ -2,101 +2,105 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>South African Digital Pulse | Home</title>
 
-    <!-- I'm linking my CSS files here -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
 
-    <!-- I'm using Google Fonts as specified in my design document -->
+    <!-- Fonts (as specified in design document) -->
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Josefin+Sans:wght@300;400;500&display=swap"
-        rel="stylesheet">
+        rel="stylesheet" />
+
+    <!-- Page description for accessibility / SEO -->
+    <meta name="description"
+        content="South African Digital Pulse — connecting creative minds across South Africa with news, events and resources for digital artists." />
 </head>
 
 <body>
-    <!-- Navigation will be loaded here by JavaScript -->
-    <div id="nav-container"></div>
+    <!-- Navigation (injected by js/navigation.js) -->
+    <div id="nav-container" aria-live="polite"></div>
 
-    <main class="main-content">
-        <!-- Hero section - this is the first thing users see -->
-        <section class="hero-section">
+    <main class="main-content" id="content" role="main">
+        <!-- Hero -->
+        <section class="hero-section" aria-labelledby="hero-title">
             <div class="hero-text">
-                <h1>South African Digital Pulse</h1>
+                <!-- I'm building the hero to introduce the project and call to action -->
+                <h1 id="hero-title">South African Digital Pulse</h1>
                 <p class="tagline">Connecting creative minds across South Africa</p>
-                <button class="cta-button" id="exploreButton">Explore Our Community</button>
+                <button class="cta-button" id="exploreButton" type="button">Explore Our Community</button>
             </div>
 
-            <!-- Visual element for the hero section -->
-            <div class="hero-visual">
-                <!-- I'm using SVG for scalable graphics that won't pixelate -->
-                <svg class="cultural-svg" width="250" height="250" viewBox="0 0 100 100">
-                    <!-- This path represents a cultural pattern inspired by African designs -->
+            <div class="hero-visual" aria-hidden="true">
+                <!-- Decorative SVG visual; a small motion-path will be animated by GSAP -->
+                <svg class="cultural-svg" width="300" height="300" viewBox="0 0 100 100" role="img" aria-hidden="true">
                     <path id="cultural-path" d="M20,50 C40,30 60,30 80,50 C60,70 40,70 20,50" fill="none"
-                        stroke="#7F3C3C" stroke-width="2" />
-                    <!-- This circle will be animated to follow the path -->
-                    <circle id="animated-dot" r="3" fill="#3C7F7F" />
+                        stroke="#7F3C3C" stroke-width="2"></path>
+                    <circle id="animated-dot" r="3" fill="#3C7F7F"></circle>
                 </svg>
             </div>
         </section>
 
-        <!-- Featured news section - this displays live South African news -->
-        <section class="featured-news" id="newsSection">
+        <!-- Featured news -->
+        <section class="featured-news" id="newsSection" aria-labelledby="news-heading">
             <header class="section-header">
-                <h2>Latest from South Africa</h2>
-                <p>Stay updated with current events and creative developments</p>
+                <h2 id="news-heading">Latest from South Africa</h2>
+                <p>Stay updated with current events and creative developments across the country.</p>
             </header>
 
-            <!-- Search functionality for filtering news -->
-            <div class="search-container">
-                <input type="text" id="newsSearch" placeholder="Search news articles..."
-                    aria-label="Search news articles">
-                <button id="searchButton" type="button">Search</button>
+            <div class="search-container" role="search" aria-label="Search news">
+                <label for="newsSearch" class="visually-hidden">Search news</label>
+                <input type="search" id="newsSearch" name="newsSearch" placeholder="Search news articles..."
+                    aria-label="Search news articles" />
+                <button id="searchButton" type="button" aria-label="Search">Search</button>
             </div>
 
-            <!-- Container where news articles will be dynamically loaded -->
-            <div class="news-grid" id="newsContainer">
-                <!-- JavaScript will populate this with news articles from the API -->
+            <!-- Articles load here via JS -->
+            <div class="news-grid" id="newsContainer" aria-live="polite">
                 <p class="loading-message">Loading latest news...</p>
             </div>
         </section>
 
-        <!-- Community highlights section -->
-        <section class="community-highlights">
-            <h2>Community Features</h2>
+        <!-- Community highlights -->
+        <section class="community-highlights" aria-labelledby="highlights-heading">
+            <h2 id="highlights-heading">Community Features</h2>
             <div class="highlights-grid">
-                <article class="feature-card">
-                    <h3>Artist Spotlights</h3>
-                    <p>Discover talented South African digital artists and their work</p>
+                <article class="feature-card" aria-labelledby="spotlight-title">
+                    <h3 id="spotlight-title">Artist Spotlights</h3>
+                    <p>Discover talented South African digital artists and their work.</p>
                 </article>
 
-                <article class="feature-card">
-                    <h3>Creative Resources</h3>
-                    <p>Tools, tutorials, and guides for digital creators</p>
+                <article class="feature-card" aria-labelledby="resources-title">
+                    <h3 id="resources-title">Creative Resources</h3>
+                    <p>Tools, tutorials, and guides for digital creators.</p>
                 </article>
 
-                <article class="feature-card">
-                    <h3>Local Events</h3>
-                    <p>Exhibitions, workshops, and meetups in your area</p>
+                <article class="feature-card" aria-labelledby="events-title">
+                    <h3 id="events-title">Local Events</h3>
+                    <p>Exhibitions, workshops, and meetups happening near you.</p>
                 </article>
             </div>
         </section>
     </main>
 
-    <footer class="site-footer">
-        <p>&copy; 2025 South African Digital Pulse. Created for educational purposes.</p>
+    <footer class="site-footer" role="contentinfo">
+        <p>&copy; 2025 South African Digital Pulse. Created for academic purposes.</p>
+        <!-- small student note for authenticity -->
+        <!-- Developed by R. Sikhweni — Interactive Media (student project) -->
     </footer>
 
-    <!-- I'm loading GSAP for animations as required by the brief -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Scripts: navigation must load first so nav is available to UX scripts -->
+    <script src="js/navigation.js" defer></script>
+    <script src="js/news-loader.js" defer></script>
+    <script src="js/animations.js" defer></script>
 
-    <!-- These are My custom JavaScript files -->
-    <script src="js/navigation.js"></script>
-    <script src="js/news-loader.js"></script>
-    <script src="js/animations.js"></script>
+    <noscript>
+        <p class="error-message">This site uses JavaScript for navigation and content. Please enable JavaScript in your
+            browser to use the full experience.</p>
+    </noscript>
 </body>
 
 </html>

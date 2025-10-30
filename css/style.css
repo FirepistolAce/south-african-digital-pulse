@@ -1,402 +1,152 @@
-/* style.css - Main stylesheet for South African Digital Pulse */
-/* This implements the color scheme and typography from my design document */
+/* css/style.css
+   Clean, consolidated stylesheet for South African Digital Pulse.
+   - Preserves original selectors and color tokens.
+   - Adds hero (img + overlay) styling with gradient.
+   - Responsive: desktop sidebar nav / mobile bottom nav included.
+*/
 
-/* ===== CSS VARIABLES ===== */
-/* I'm using CSS variables to maintain consistency with my design document colors */
-:root {
-    /* Primary color palette from my design document */
-    --primary-color: #7F3C3C;    /* Deep earthy red brown */
-    --secondary-color: #3C7F7F;   /* Teal green */
-    --accent-color: #5FAFAF;      /* Lighter teal for hover states */
-    --background-light: #F5F5F5;  /* Light grey background */
-    --text-dark: #1E1E1E;         /* Dark grey for text */
-    --text-light: #FFFFFF;        /* White text for dark backgrounds */
-    
-    /* Spacing variables for consistency */
-    --spacing-xs: 0.5rem;
-    --spacing-sm: 1rem;
-    --spacing-md: 2rem;
-    --spacing-lg: 3rem;
-    --spacing-xl: 4rem;
-    
-    /* Border radius */
-    --border-radius: 8px;
-    --border-radius-lg: 12px;
-    
-    /* Shadows */
-    --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.15);
+/* ===== VARIABLES ===== */
+:root{
+  --primary-color: #7F3C3C;
+  --secondary-color: #3C7F7F;
+  --accent-color: #5FAFAF;
+  --background-light: #F5F5F5;
+  --text-dark: #1E1E1E;
+  --text-light: #FFFFFF;
+
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 3rem;
+  --spacing-xl: 4rem;
+
+  --border-radius: 8px;
+  --shadow-light: 0 2px 10px rgba(0,0,0,0.08);
+  --shadow-medium: 0 6px 20px rgba(0,0,0,0.12);
 }
 
-/* ===== RESET AND BASE STYLES ===== */
-/* I'm resetting default margins and padding for consistency across browsers */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ===== RESET / BASE ===== */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family: 'Josefin Sans', Arial, sans-serif;
+  background:var(--background-light);
+  color:var(--text-dark);
+  line-height:1.6;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
 }
 
-html {
-    scroll-behavior: smooth; /* Makes scrolling to anchors smooth */
-}
-
-body {
-    font-family: 'Josefin Sans', Arial, sans-serif;
-    background-color: var(--background-light);
-    color: var(--text-dark);
-    line-height: 1.6;
-    font-size: 16px;
-    overflow-x: hidden; /* Prevents horizontal scrolling */
+.visually-hidden{
+  position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap;border:0;padding:0;margin:-1px;
 }
 
 /* ===== TYPOGRAPHY ===== */
-/* Implementing the font choices from my design document */
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cinzel', Georgia, serif;
-    font-weight: 600;
-    line-height: 1.3;
-    margin-bottom: var(--spacing-sm);
-    color: var(--primary-color);
+h1,h2,h3,h4,h5,h6{font-family:'Cinzel', Georgia, serif;color:var(--primary-color);line-height:1.15}
+h1{font-size:clamp(2rem,5vw,3rem)}
+h2{font-size:clamp(1.4rem,3vw,2rem)}
+p{margin-bottom:var(--spacing-sm);font-size:1.05rem;color:rgba(30,30,30,0.95)}
+
+/* ===== NAV (preserved) ===== */
+#nav-container{
+  position:fixed;
+  left:0;top:0;
+  width:70px;height:100vh;
+  background:var(--primary-color);
+  padding:var(--spacing-lg) 0;
+  transition:width .28s ease;
+  z-index:1200;
+  box-shadow:var(--shadow-medium);
+}
+#nav-container:hover{width:220px}
+
+.nav-list{list-style:none;display:flex;flex-direction:column;gap:var(--spacing-xs);height:100%;padding-top:var(--spacing-md)}
+.nav-item{
+  display:flex;align-items:center;color:var(--text-light);text-decoration:none;padding:var(--spacing-sm) var(--spacing-md);transition:all .22s ease;border-radius:4px;margin:0 var(--spacing-xs);
+  white-space:nowrap;
+}
+.nav-item:hover{background:var(--accent-color);transform:translateX(6px)}
+.nav-item.active{background:var(--secondary-color)}
+.nav-icon{font-size:1.2rem;margin-right:var(--spacing-sm);min-width:28px;text-align:center}
+.nav-text{opacity:0;transition:opacity .28s ease .08s;font-weight:600}
+#nav-container:hover .nav-text{opacity:1}
+
+/* ===== LAYOUT ===== */
+.main-content{margin-left:70px;padding:var(--spacing-md);min-height:100vh;transition:margin-left .28s ease}
+#nav-container:hover ~ .main-content{margin-left:220px}
+
+/* ===== HERO (image + overlay) ===== */
+.hero-section{position:relative;min-height:88vh;display:grid;align-items:center;justify-items:center;margin-bottom:var(--spacing-lg);overflow:hidden}
+
+/* Image container - fill entire hero */
+.hero-media{position:absolute;inset:0;overflow:hidden;z-index:1}
+.hero-image{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:contrast(.95) saturate(.98);transform-origin:center}
+
+/* Overlay content (centered) */
+.hero-overlay{position:relative;z-index:2;max-width:1200px;padding:var(--spacing-lg);text-align:center;color:var(--text-light);display:flex;flex-direction:column;gap:1rem;align-items:center;justify-content:center}
+
+/* gradient for contrast: subtle top -> stronger bottom */
+.hero-overlay::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.32) 45%, rgba(0,0,0,0.6) 100%);
+  pointer-events:none;
 }
 
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: var(--spacing-sm);
-}
+/* Heading & subtitle */
+.hero-heading{font-size:clamp(2.2rem,6.5vw,4.2rem);line-height:1;margin-bottom:.25rem;color:var(--text-light);text-shadow:0 8px 22px rgba(0,0,0,0.5)}
+.hero-subtitle{font-size:clamp(1rem,2.2vw,1.2rem);max-width:68%;color:rgba(255,255,255,0.95)}
 
-h2 {
-    font-size: 2rem;
-    margin-bottom: var(--spacing-sm);
-}
+/* CTA row */
+.hero-cta{display:flex;gap:1rem;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:.6rem}
 
-h3 {
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-xs);
-}
+/* Buttons - keep existing look consistent with site */
+.btn{display:inline-block;padding:.7rem 1.2rem;border-radius:999px;font-weight:600;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease;border:2px solid transparent}
+.btn-primary{background:var(--primary-color);color:var(--text-light);box-shadow:0 8px 30px rgba(127,60,60,0.18)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(127,60,60,0.22)}
+.btn-outline{background:transparent;color:var(--text-light);border:1px solid rgba(255,255,255,0.35);backdrop-filter:blur(6px)}
+.btn-outline:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.75)}
 
-p {
-    margin-bottom: var(--spacing-sm);
-    font-size: 1.1rem;
-}
+/* Hero search pill under CTAs */
+.hero-search{z-index:2;margin-top:1.25rem;width:min(960px,92%);display:flex;gap:.5rem;align-items:center;justify-content:center;background:rgba(255,255,255,0.96);padding:.5rem;border-radius:999px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+.hero-search input[type="search"]{flex:1;border:none;font-size:1rem;padding:.5rem;background:transparent;font-family:inherit;color:var(--text-dark);outline:none}
+.hero-search button{border:none;background:transparent;font-size:1.1rem;cursor:pointer}
 
-/* ===== NAVIGATION STYLES - FIXED ===== */
-/* Fixed: Changed #main-nav to #nav-container to match HTML */
-#nav-container {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 70px; /* Collapsed width */
-    height: 100vh;
-    background: var(--primary-color);
-    padding: var(--spacing-lg) 0;
-    transition: width 0.3s ease;
-    z-index: 1000;
-    box-shadow: var(--shadow-medium);
-}
+/* ===== CONTENT SECTIONS (preserved) ===== */
+.section-header{text-align:center;margin-bottom:var(--spacing-lg)}
+.section-header h2{color:var(--primary-color);margin-bottom:var(--spacing-xs)}
 
-/* Expanded navigation on hover */
-#nav-container:hover {
-    width: 220px;
-}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--spacing-md);margin-top:var(--spacing-lg)}
+.news-card{background:var(--text-light);border-radius:var(--border-radius);padding:var(--spacing-md);box-shadow:var(--shadow-light);transition:all .22s ease}
+.news-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-medium)}
+.news-card h3{color:var(--primary-color);margin-bottom:.5rem}
+.news-meta{font-size:.9rem;color:#666;display:flex;gap:.6rem;margin:.6rem 0}
 
-.nav-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
-    height: 100%;
-    justify-content: flex-start;
-    padding-top: var(--spacing-md);
-}
-
-.nav-item {
-    display: flex;
-    align-items: center;
-    color: var(--text-light);
-    text-decoration: none;
-    padding: var(--spacing-sm) var(--spacing-md);
-    transition: all 0.3s ease;
-    border-radius: 4px;
-    margin: 0 var(--spacing-xs);
-    white-space: nowrap;
-}
-
-.nav-item:hover {
-    background-color: var(--accent-color);
-    transform: translateX(5px);
-}
-
-.nav-item.active {
-    background-color: var(--secondary-color);
-}
-
-.nav-icon {
-    font-size: 1.3rem;
-    margin-right: var(--spacing-sm);
-    min-width: 24px;
-    text-align: center;
-}
-
-.nav-text {
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s ease 0.1s;
-    font-weight: 500;
-}
-
-#nav-container:hover .nav-text {
-    opacity: 1;
-}
-
-/* ===== MAIN CONTENT AREA ===== */
-.main-content {
-    margin-left: 70px; /* Matches collapsed nav width */
-    min-height: 100vh;
-    padding: var(--spacing-md);
-    transition: margin-left 0.3s ease;
-}
-
-#nav-container:hover ~ .main-content {
-    margin-left: 220px; /* Expand content area when nav expands */
-}
-
-/* ===== HERO SECTION ===== */
-.hero-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 90vh;
-    padding: var(--spacing-xl) 0;
-    gap: var(--spacing-lg);
-}
-
-.hero-text {
-    flex: 1;
-    max-width: 50%;
-}
-
-.hero-text h1 {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: var(--spacing-md);
-}
-
-.tagline {
-    font-size: 1.4rem;
-    color: var(--text-dark);
-    margin-bottom: var(--spacing-lg);
-}
-
-.cta-button {
-    background: var(--secondary-color);
-    color: var(--text-light);
-    border: none;
-    padding: var(--spacing-sm) var(--spacing-lg);
-    font-size: 1.1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Josefin Sans', sans-serif;
-    font-weight: 500;
-}
-
-.cta-button:hover {
-    background: var(--accent-color);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-medium);
-}
-
-.hero-visual {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.cultural-svg {
-    max-width: 100%;
-    height: auto;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
-}
-
-/* ===== CONTENT SECTIONS ===== */
-.section-header {
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
-}
-
-.section-header h2 {
-    color: var(--primary-color);
-    margin-bottom: var(--spacing-xs);
-}
-
-/* ===== SEARCH COMPONENTS ===== */
-.search-container {
-    display: flex;
-    gap: var(--spacing-xs);
-    margin-bottom: var(--spacing-lg);
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#newsSearch {
-    flex: 1;
-    padding: var(--spacing-sm);
-    border: 2px solid #ddd;
-    border-radius: var(--border-radius);
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-}
-
-#newsSearch:focus {
-    outline: none;
-    border-color: var(--secondary-color);
-}
-
-#searchButton {
-    background: var(--secondary-color);
-    color: var(--text-light);
-    border: none;
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#searchButton:hover {
-    background: var(--accent-color);
-}
-
-/* ===== NEWS GRID ===== */
-.news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-lg);
-}
-
-.news-card {
-    background: var(--text-light);
-    border-radius: var(--border-radius);
-    padding: var(--spacing-md);
-    box-shadow: var(--shadow-light);
-    transition: all 0.3s ease;
-}
-
-.news-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-medium);
-}
-
-.news-card h3 {
-    color: var(--primary-color);
-    margin-bottom: var(--spacing-xs);
-}
-
-.news-meta {
-    font-size: 0.9rem;
-    color: #666;
-    margin: var(--spacing-xs) 0;
-    display: flex;
-    gap: var(--spacing-sm);
-}
-
-.read-link {
-    color: var(--secondary-color);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.read-link:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
-}
-
-/* ===== FEATURE CARDS ===== */
-.highlights-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-lg);
-}
-
-.feature-card {
-    background: var(--secondary-color);
-    color: var(--text-light);
-    padding: var(--spacing-lg);
-    border-radius: var(--border-radius);
-    text-align: center;
-    transition: transform 0.3s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
-}
-
-.feature-card h3 {
-    color: var(--text-light);
-    margin-bottom: var(--spacing-xs);
-}
+.highlights-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--spacing-md);margin-top:var(--spacing-lg)}
+.feature-card{background:var(--secondary-color);color:var(--text-light);padding:var(--spacing-lg);border-radius:var(--border-radius);text-align:center;transition:transform .25s ease}
+.feature-card:hover{transform:translateY(-6px)}
 
 /* ===== FOOTER ===== */
-.site-footer {
-    background: var(--primary-color);
-    color: var(--text-light);
-    text-align: center;
-    padding: var(--spacing-md);
-    margin-top: var(--spacing-xl);
+.site-footer{background:var(--primary-color);color:var(--text-light);text-align:center;padding:var(--spacing-md);margin-top:var(--spacing-lg)}
+
+/* ===== SMALL SCREENS ===== */
+@media (max-width:767px){
+  /* Nav -> bottom bar */
+  #nav-container{left:0;top:auto;bottom:0;width:100%;height:64px;padding:0;display:flex;justify-content:space-around;align-items:center}
+  #nav-container:hover{width:100%}
+  .main-content{margin-left:0;margin-bottom:64px;padding:var(--spacing-sm)}
+  .hero-overlay{padding:var(--spacing-md)}
+  .hero-subtitle{max-width:92%}
+  .hero-heading{font-size:clamp(1.6rem,6.5vw,2.6rem);text-shadow:0 6px 16px rgba(0,0,0,0.5)}
+  .hero-search{width:calc(100% - 2rem);padding:.45rem}
+  .hero-subtitle{font-size:1rem}
+  .hero-cta{gap:.5rem}
 }
 
-/* ===== UTILITY CLASSES ===== */
-.loading-message {
-    text-align: center;
-    padding: var(--spacing-lg);
-    color: #666;
-    font-style: italic;
+/* ===== LARGE SCREENS TWEAKS ===== */
+@media (min-width:1024px){
+  .hero-subtitle{max-width:60%}
+  .hero-search{margin-top:2rem}
 }
 
-.error-message {
-    background: #ffeaea;
-    color: #e74c3c;
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius);
-    text-align: center;
-    margin: var(--spacing-md) 0;
-}
-
-/* Animation states for GSAP */
-.hero-text h1,
-.tagline,
-.cta-button,
-.news-card,
-.feature-card {
-    opacity: 1; /* Changed from 0 - let GSAP handle animations */
-}
-
-/* Additional responsive improvements */
-@media (max-width: 768px) {
-    .hero-section {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .hero-text {
-        max-width: 100%;
-    }
-    
-    .main-content {
-        margin-left: 0;
-        padding: var(--spacing-sm);
-    }
-    
-    #nav-container {
-        width: 60px;
-    }
-    
-    #nav-container:hover {
-        width: 200px;
-    }
-}
+/* ===== A11Y / focus styles ===== */
+a:focus,button:focus,input:focus{outline:3px solid rgba(0,0,0,0.06);outline-offset:2px}

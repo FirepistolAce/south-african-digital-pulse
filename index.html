@@ -8,14 +8,15 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css" />
+    <!-- If you also use css/responsive.css keep it; style.css contains responsive rules too -->
     <link rel="stylesheet" href="css/responsive.css" />
 
-    <!-- Fonts (as specified in design document) -->
+    <!-- Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Josefin+Sans:wght@300;400;500&display=swap"
         rel="stylesheet" />
 
-    <!-- Page description for accessibility / SEO -->
+    <!-- SEO / Accessibility -->
     <meta name="description"
         content="South African Digital Pulse — connecting creative minds across South Africa with news, events and resources for digital artists." />
 </head>
@@ -25,46 +26,49 @@
     <div id="nav-container" aria-live="polite"></div>
 
     <main class="main-content" id="content" role="main">
-        <!-- Hero -->
+        <!-- HERO: full-width image (img element), gradient overlay, and CTAs -->
         <section class="hero-section" aria-labelledby="hero-title">
-            <div class="hero-text">
-                <!-- I'm building the hero to introduce the project and call to action -->
-                <h1 id="hero-title">South African Digital Pulse</h1>
-                <p class="tagline">Connecting creative minds across South Africa</p>
-                <button class="cta-button" id="exploreButton" type="button">Explore Our Community</button>
+            <!-- Decorative image (semantic alt kept minimal because it's decorative) -->
+            <div class="hero-media" aria-hidden="true">
+                <img src="assets/hero.png" alt="" class="hero-image">
             </div>
 
-            <div class="hero-visual" aria-hidden="true">
-                <!-- Decorative SVG visual; a small motion-path will be animated by GSAP -->
-                <svg class="cultural-svg" width="300" height="300" viewBox="0 0 100 100" role="img" aria-hidden="true">
-                    <path id="cultural-path" d="M20,50 C40,30 60,30 80,50 C60,70 40,70 20,50" fill="none"
-                        stroke="#7F3C3C" stroke-width="2"></path>
-                    <circle id="animated-dot" r="3" fill="#3C7F7F"></circle>
-                </svg>
+            <!-- Overlay content: heading, subtitle, CTAs -->
+            <div class="hero-overlay" role="region" aria-label="Introduction">
+                <h1 id="hero-title" class="hero-heading">South African Digital Pulse</h1>
+                <p class="hero-subtitle">Connecting creative minds across South Africa — resources, events, and
+                    community
+                    for digital artists.</p>
+
+                <div class="hero-cta">
+                    <a href="media.html" class="btn btn-primary" aria-label="Explore resources">Explore Resources</a>
+                    <a href="community.html" class="btn btn-outline" aria-label="Join community">Join Community</a>
+                </div>
+
+                <!-- Search that visually sits under the hero (mobile-friendly like YouTube) -->
+                <div class="hero-search" role="search" aria-label="Search articles">
+                    <label for="newsSearch" class="visually-hidden">Search articles</label>
+                    <input id="newsSearch" name="newsSearch" type="search" placeholder="Search articles, resources..."
+                        aria-label="Search articles">
+                    <button id="searchButton" type="button" aria-label="Search">🔍</button>
+                </div>
             </div>
         </section>
 
-        <!-- Featured news -->
+        <!-- FEATURED NEWS (unchanged structure) -->
         <section class="featured-news" id="newsSection" aria-labelledby="news-heading">
             <header class="section-header">
                 <h2 id="news-heading">Latest from South Africa</h2>
                 <p>Stay updated with current events and creative developments across the country.</p>
             </header>
 
-            <div class="search-container" role="search" aria-label="Search news">
-                <label for="newsSearch" class="visually-hidden">Search news</label>
-                <input type="search" id="newsSearch" name="newsSearch" placeholder="Search news articles..."
-                    aria-label="Search news articles" />
-                <button id="searchButton" type="button" aria-label="Search">Search</button>
-            </div>
-
-            <!-- Articles load here via JS -->
+            <!-- JS will populate news here -->
             <div class="news-grid" id="newsContainer" aria-live="polite">
                 <p class="loading-message">Loading latest news...</p>
             </div>
         </section>
 
-        <!-- Community highlights -->
+        <!-- COMMUNITY HIGHLIGHTS - preserved exactly as requested -->
         <section class="community-highlights" aria-labelledby="highlights-heading">
             <h2 id="highlights-heading">Community Features</h2>
             <div class="highlights-grid">
@@ -88,11 +92,13 @@
 
     <footer class="site-footer" role="contentinfo">
         <p>&copy; 2025 South African Digital Pulse. Created for academic purposes.</p>
-        <!-- small student note for authenticity -->
         <!-- Developed by R. Sikhweni — Interactive Media (student project) -->
     </footer>
 
-    <!-- Scripts: navigation must load first so nav is available to UX scripts -->
+    <!-- Scripts
+         navigation.js injects the nav into #nav-container and must remain as-is.
+         Using defer to ensure DOM is parsed before scripts run.
+    -->
     <script src="js/navigation.js" defer></script>
     <script src="js/news-loader.js" defer></script>
     <script src="js/animations.js" defer></script>

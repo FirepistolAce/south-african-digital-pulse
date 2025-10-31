@@ -1,4 +1,4 @@
-/* style.css - Fixed bottom navbar for mobile */
+/* style.css - Fixed bottom navbar for mobile with desktop hover sidebar */
 /* ===== VARIABLES ===== */
 :root {
   --primary-color: #7F3C3C;
@@ -18,7 +18,7 @@
   --shadow-light: 0 2px 10px rgba(0,0,0,0.08);
   --shadow-medium: 0 6px 20px rgba(0,0,0,0.12);
 
-  --nav-collapsed-width: 70px;
+  --nav-collapsed-width: 90px;
   --nav-expanded-width: 220px;
   --bottom-nav-height: 64px;
 }
@@ -41,7 +41,7 @@ body {
   line-height: 1.6;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
-  padding-bottom: env(safe-area-inset-bottom); /* Safe area for modern mobile browsers */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .visually-hidden {
@@ -77,7 +77,7 @@ p {
   color: rgba(30, 30, 30, 0.95);
 }
 
-/* ===== DESKTOP NAVIGATION ===== */
+/* ===== DESKTOP SIDEBAR NAVIGATION ===== */
 #nav-container {
   position: fixed;
   left: 0;
@@ -96,53 +96,52 @@ p {
   touch-action: manipulation;
 }
 
-/* Expanded state for desktop */
-#nav-container.expanded {
-  width: var(--nav-expanded-width);
-}
-
-/* Nav list */
+/* Nav list - centered with better spacing */
 .nav-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-md);
   height: 100%;
-  padding-top: var(--spacing-md);
   width: 100%;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 2rem;
 }
 
 .nav-list li {
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-/* Nav items */
+/* Nav items - centered with column layout */
 .nav-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   color: var(--text-light);
   text-decoration: none;
-  padding: var(--spacing-sm) var(--spacing-md);
-  transition: all .22s ease, transform .18s ease;
-  border-radius: 8px;
-  margin: .25rem auto;
+  padding: var(--spacing-sm);
+  transition: all .22s ease;
+  border-radius: var(--border-radius);
+  margin: 0.5rem 0;
   white-space: nowrap;
-  width: calc(var(--nav-collapsed-width) - 8px);
+  width: calc(var(--nav-collapsed-width) - 1rem);
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
-  left: 0;
+  gap: 0.5rem;
+  min-height: 70px;
 }
 
-/* Expanded nav items */
-#nav-container.expanded .nav-item {
-  width: calc(100% - (var(--spacing-md) * 2));
-}
-
-/* Hover/focus states */
+/* Hover state - reveal text and subtle background */
 .nav-item:hover {
-  background: var(--accent-color);
-  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 .nav-item:focus {
@@ -155,31 +154,44 @@ p {
   background: var(--secondary-color);
 }
 
-/* Icons and labels */
+/* Icons - larger and centered */
 .nav-icon {
-  font-size: 1.2rem;
-  margin-right: var(--spacing-sm);
-  min-width: 28px;
+  font-size: 1.5rem;
+  min-width: 32px;
   text-align: center;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform .22s ease;
+  margin: 0;
 }
 
+.nav-item:hover .nav-icon {
+  transform: scale(1.1);
+}
+
+/* Text - hidden by default, appears below icon on hover */
 .nav-text {
   opacity: 0;
-  transition: opacity .28s ease .08s;
+  transform: translateY(10px);
+  transition: all .28s ease;
   font-weight: 600;
-  display: inline-block;
-  vertical-align: middle;
+  font-size: 0.75rem;
+  text-align: center;
+  color: var(--text-light);
   max-width: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
+  display: block;
+  line-height: 1.2;
+  height: 0;
 }
 
-/* Show labels when expanded */
-#nav-container.expanded .nav-text {
+/* Reveal text on hover */
+.nav-item:hover .nav-text {
   opacity: 1;
+  transform: translateY(0);
+  height: auto;
 }
 
 /* ===== MAIN CONTENT ===== */
@@ -188,10 +200,6 @@ p {
   padding: var(--spacing-md);
   min-height: 100vh;
   transition: margin-left .28s ease;
-}
-
-#nav-container.expanded ~ .main-content {
-  margin-left: var(--nav-expanded-width);
 }
 
 /* ===== HERO SECTION ===== */
@@ -435,6 +443,13 @@ p {
     height: 100% !important;
     padding: 0 !important;
     gap: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .nav-list li {
+    width: auto !important;
+    display: flex !important;
+    justify-content: center !important;
   }
 
   /* Mobile nav items - vertical layout with icon above text */
@@ -450,6 +465,8 @@ p {
     text-align: center !important;
     flex: 1 1 auto !important;
     max-width: 80px !important;
+    min-height: auto !important;
+    gap: 0.15rem !important;
   }
 
   /* Remove hover effects that don't work well on mobile */
@@ -460,19 +477,21 @@ p {
 
   /* Mobile icons */
   .nav-icon {
-    margin: 0 !important;
     font-size: 1.35rem !important;
     margin-bottom: 0.15rem !important;
+    transform: none !important;
   }
 
   /* Always show labels on mobile */
   .nav-text {
     opacity: 1 !important;
+    transform: none !important;
     font-size: 0.65rem !important;
     color: var(--text-light) !important;
     text-align: center !important;
     display: block !important;
     line-height: 1.2;
+    height: auto !important;
   }
 
   /* Main content adjustments for mobile */

@@ -1,4 +1,4 @@
-// navigation.js - Fixed mobile bottom navigation
+// navigation.js - Simplified for hover-only desktop navigation and mobile bottom nav
 class NavigationSystem {
     constructor() {
         this.pages = [
@@ -11,8 +11,6 @@ class NavigationSystem {
 
         this.navContainer = null;
         this.isMobile = false;
-        this._pointerEnterHandler = null;
-        this._pointerLeaveHandler = null;
         this.init();
     }
 
@@ -58,7 +56,6 @@ class NavigationSystem {
         // Attach event handlers
         this.attachKeyboardHandlers();
         this.setActivePage();
-        this.setupPointerExpansion();
 
         console.log('Navigation created successfully');
     }
@@ -66,7 +63,6 @@ class NavigationSystem {
     updateNavPresentation() {
         if (!this.navContainer) return;
         
-        const wasMobile = this.isMobile;
         this.isMobile = window.matchMedia('(max-width: 767px)').matches;
 
         // Remove all navigation classes
@@ -75,16 +71,9 @@ class NavigationSystem {
         if (this.isMobile) {
             // Mobile layout - bottom navigation
             this.navContainer.classList.add('mobile-nav');
-            this.disablePointerExpansion();
         } else {
-            // Desktop layout - sidebar navigation
+            // Desktop layout - sidebar navigation (hover-only)
             this.navContainer.classList.add('sidebar-nav');
-            this.enablePointerExpansion();
-        }
-
-        // If switching between modes, ensure proper state
-        if (wasMobile !== this.isMobile) {
-            this.setActivePage(); // Re-set active page for new layout
         }
     }
 
@@ -125,54 +114,6 @@ class NavigationSystem {
             items[0].classList.add('active');
             items[0].setAttribute('aria-current', 'page');
         }
-    }
-
-    setupPointerExpansion() {
-        if (!this.navContainer) return;
-
-        // Remove existing handlers
-        this.disablePointerExpansion();
-
-        // Only set up pointer handlers for desktop
-        if (!this.isMobile) {
-            this.enablePointerExpansion();
-        }
-    }
-
-    enablePointerExpansion() {
-        if (this._pointerEnterHandler || this._pointerLeaveHandler) return;
-
-        this._pointerEnterHandler = () => {
-            this.navContainer.classList.add('expanded');
-        };
-
-        this._pointerLeaveHandler = () => {
-            this.navContainer.classList.remove('expanded');
-        };
-
-        this.navContainer.addEventListener('pointerenter', this._pointerEnterHandler);
-        this.navContainer.addEventListener('pointerleave', this._pointerLeaveHandler);
-
-        // Prevent touch expansion on hybrid devices
-        this.navContainer.addEventListener('touchstart', () => {
-            if (!this.isMobile) {
-                this.navContainer.classList.remove('expanded');
-            }
-        }, { passive: true });
-    }
-
-    disablePointerExpansion() {
-        if (this._pointerEnterHandler) {
-            this.navContainer.removeEventListener('pointerenter', this._pointerEnterHandler);
-            this._pointerEnterHandler = null;
-        }
-        if (this._pointerLeaveHandler) {
-            this.navContainer.removeEventListener('pointerleave', this._pointerLeaveHandler);
-            this._pointerLeaveHandler = null;
-        }
-        
-        // Ensure expanded class is removed when disabling
-        this.navContainer.classList.remove('expanded');
     }
 }
 

@@ -92,7 +92,7 @@ class NewsLoader {
             
             console.log(`Successfully loaded ${this.articles.length} articles from NewsAPI`);
             this.displayNews(this.articles);
-            this.showStatusMessage('📡 Live South African news loaded successfully');
+            this.showStatusMessage(' Live South African news loaded successfully');
         } else {
             throw new Error('Invalid response from NewsAPI');
         }
@@ -130,7 +130,7 @@ class NewsLoader {
             
             console.log(`Loaded ${this.articles.length} articles from Guardian API`);
             this.displayNews(this.articles);
-            this.showStatusMessage('📰 South African news from The Guardian');
+            this.showStatusMessage(' South African news from The Guardian');
         } else {
             throw new Error('No articles found in Guardian API response');
         }
@@ -184,7 +184,7 @@ class NewsLoader {
         this.articles = fallbackArticles;
         this.displayNews(fallbackArticles);
         
-        this.showStatusMessage('🌟 Featured South African digital creativity stories');
+        this.showStatusMessage(' Featured South African digital creativity stories');
     }
 
     displayNews(articlesToShow) {
@@ -385,7 +385,7 @@ class NewsLoader {
                             <div class="news-source-badge">${article.source.name}</div>
                         </div>
                         <div class="news-content">
-                            <div class="search-match-indicator">🔍 Search Match</div>
+                            <div class="search-match-indicator"> Search Match</div>
                             <h3>${this.highlightSearchTerms(article.title, query)}</h3>
                             <p>${this.highlightSearchTerms(article.description, query)}</p>
                             <div class="news-meta">

@@ -1,10 +1,8 @@
-// community.js - GUARANTEED WORKING Community Functionality
-// Student: Rofhiwa Sikhweni
-// This provides actual working buttons and interactions for the community page
+
 
 class CommunityManager {
     constructor() {
-        console.log('🔄 CommunityManager constructor called');
+        console.log(' CommunityManager constructor called');
         
         // Track user interactions
         this.registeredEvents = new Set();
@@ -15,7 +13,7 @@ class CommunityManager {
     }
 
     init() {
-        console.log('🚀 Initializing CommunityManager...');
+        console.log(' Initializing CommunityManager...');
         
         // Set up all event listeners
         this.setupAllEventListeners();
@@ -30,7 +28,7 @@ class CommunityManager {
     }
 
     setupAllEventListeners() {
-        console.log('🔧 Setting up event listeners...');
+        console.log(' Setting up event listeners...');
         
         // Setup search functionality
         this.setupSearchFunctionality();
@@ -41,7 +39,7 @@ class CommunityManager {
     }
 
     setupSearchFunctionality() {
-        console.log('🔍 Setting up search functionality...');
+        console.log(' Setting up search functionality...');
         
         // Add search bars to all community sections
         const sections = document.querySelectorAll('.community-events, .discussion-forum, .collaboration-board');
@@ -78,7 +76,7 @@ class CommunityManager {
     }
 
     setupBackupEventListeners() {
-        console.log('🔄 Setting up backup event listeners...');
+        console.log('Setting up backup event listeners...');
         
         // Backup event registration listeners
         document.querySelectorAll('.register-btn').forEach(button => {
@@ -128,9 +126,9 @@ class CommunityManager {
         });
     }
 
-    // ✅ WORKING EVENT REGISTRATION
+
     registerForEvent(eventId) {
-        console.log(`🎫 Registering for event ${eventId}`);
+        console.log(` Registering for event ${eventId}`);
         
         const eventCard = document.querySelector(`[data-event-id="${eventId}"]`);
         if (!eventCard) {
@@ -167,14 +165,14 @@ class CommunityManager {
             const currentCount = parseInt(attendeeCount.textContent.match(/\d+/)[0]) || 0;
             
             if (this.registeredEvents.has(eventId)) {
-                attendeeCount.textContent = `👥 ${currentCount + 1} attendees`;
+                attendeeCount.textContent = ` ${currentCount + 1} attendees`;
             } else {
-                attendeeCount.textContent = `👥 ${Math.max(0, currentCount - 1)} attendees`;
+                attendeeCount.textContent = ` ${Math.max(0, currentCount - 1)} attendees`;
             }
         }
     }
 
-    // ✅ WORKING DISCUSSION OPENING
+   
     openDiscussion(threadId) {
         console.log(` Opening discussion ${threadId}`);
         
@@ -254,13 +252,13 @@ class CommunityManager {
             this.showNotification(' Comment posted successfully!');
             textarea.value = '';
         } else {
-            this.showNotification('⚠️ Please enter a comment before posting.');
+            this.showNotification(' Please enter a comment before posting.');
         }
     }
 
-    // ✅ WORKING COLLABORATION INTEREST
+   
     expressInterest(collabId) {
-        console.log(`🤝 Expressing interest in collaboration ${collabId}`);
+        console.log(` Expressing interest in collaboration ${collabId}`);
         
         const collab = document.querySelector(`[data-collab-id="${collabId}"]`);
         if (!collab) {
@@ -288,10 +286,10 @@ class CommunityManager {
         this.animateButtonFeedback(button);
     }
 
-    // ✅ WORKING VIEW ALL BUTTONS
+   
     showAllEvents() {
-        console.log('📅 Showing all events');
-        this.showNotification('📅 Loading all upcoming events...');
+        console.log(' Showing all events');
+        this.showNotification(' Loading all upcoming events...');
         
         setTimeout(() => {
             this.showNotification('✅ All events loaded successfully!');
@@ -299,8 +297,8 @@ class CommunityManager {
     }
 
     showAllDiscussions() {
-        console.log('💬 Showing all discussions');
-        this.showNotification('💬 Loading all community discussions...');
+        console.log(' Showing all discussions');
+        this.showNotification(' Loading all community discussions...');
         
         setTimeout(() => {
             this.showNotification('✅ All discussions loaded successfully!');
@@ -308,17 +306,17 @@ class CommunityManager {
     }
 
     showAllCollaborations() {
-        console.log('🤝 Showing all collaborations');
-        this.showNotification('🤝 Loading all collaboration opportunities...');
+        console.log(' Showing all collaborations');
+        this.showNotification(' Loading all collaboration opportunities...');
         
         setTimeout(() => {
             this.showNotification('✅ All opportunities loaded successfully!');
         }, 1500);
     }
 
-    // ✅ WORKING SEARCH FUNCTIONALITY
+  
     handleCommunitySearch(query, section) {
-        console.log(`🔍 Searching for: "${query}" in ${section.className}`);
+        console.log(` Searching for: "${query}" in ${section.className}`);
         
         const items = section.querySelectorAll('.event-card, .discussion-thread, .collab-opportunity');
         const searchTerm = query.toLowerCase().trim();
@@ -352,7 +350,7 @@ class CommunityManager {
         });
     }
 
-    // ✅ WORKING ANIMATIONS
+  
     animateCommunityElements() {
         if (typeof gsap !== 'undefined') {
             // Animate event cards
@@ -393,9 +391,9 @@ class CommunityManager {
         }
     }
 
-    // ✅ WORKING NOTIFICATION SYSTEM
+   
     showNotification(message) {
-        console.log(`💬 Notification: ${message}`);
+        console.log(` Notification: ${message}`);
         
         const notification = document.createElement('div');
         notification.className = 'community-notification';
@@ -426,7 +424,7 @@ class CommunityManager {
     }
 }
 
-// ✅ ENHANCED STYLES FOR COMMUNITY PAGE
+
 const communityStyles = `
 /* Community Search Styles */
 .community-search {
@@ -646,26 +644,26 @@ const communityStyles = `
 }
 `;
 
-// ✅ INJECT STYLES
+
 const communityStyleElement = document.createElement('style');
 communityStyleElement.textContent = communityStyles;
 document.head.appendChild(communityStyleElement);
 
-// ✅ INITIALIZE COMMUNITY MANAGER - FIXED VERSION
+
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🏁 DOM fully loaded, initializing CommunityManager...');
+    console.log(' DOM fully loaded, initializing CommunityManager...');
     
     // Check if we're on a page with community sections
     const communitySections = document.querySelector('.community-events, .discussion-forum, .collaboration-board');
     
     if (communitySections) {
-        console.log('📍 Community sections found, creating CommunityManager...');
+        console.log(' Community sections found, creating CommunityManager...');
         
         // Create and initialize the community manager
         window.communityManager = new CommunityManager();
         
-        console.log('🎉 CommunityManager created successfully!');
-        console.log('✅ Buttons should now be working:');
+        console.log(' CommunityManager created successfully!');
+        console.log(' Buttons should now be working:');
         console.log('   - Register buttons');
         console.log('   - Discussion clicks'); 
         console.log('   - Interest buttons');

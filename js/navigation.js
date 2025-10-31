@@ -1,5 +1,4 @@
-// navigation.js - Fixed responsive nav (prevents accidental hover expansion, supports horizontal mobile bar)
-
+// navigation.js - Fixed mobile bottom navigation
 class NavigationSystem {
     constructor() {
         this.pages = [
@@ -11,6 +10,7 @@ class NavigationSystem {
         ];
 
         this.navContainer = null;
+        this.isMobile = false;
         this._pointerEnterHandler = null;
         this._pointerLeaveHandler = null;
         this.init();
@@ -23,10 +23,9 @@ class NavigationSystem {
             this.createNavigation();
         }
 
-        // Keep nav presentation accurate if viewport size changes
+        // Update navigation when viewport changes
         window.addEventListener('resize', () => {
             this.updateNavPresentation();
-            this.setupPointerExpansion(); // rebind pointer handlers for the current mode
         });
     }
 
@@ -53,34 +52,39 @@ class NavigationSystem {
 
         this.navContainer.innerHTML = html;
 
-        // Initial presentation: set mobile or sidebar class
+        // Set initial presentation
         this.updateNavPresentation();
 
-        // Accessibility and keyboard handling
+        // Attach event handlers
         this.attachKeyboardHandlers();
-
-        // Mark active page
         this.setActivePage();
-
-        // Setup pointer enter/leave behavior (desktop only)
         this.setupPointerExpansion();
 
-        console.log('Navigation created');
+        console.log('Navigation created successfully');
     }
 
     updateNavPresentation() {
         if (!this.navContainer) return;
-        const isMobile = window.matchMedia('(max-width: 767px)').matches;
+        
+        const wasMobile = this.isMobile;
+        this.isMobile = window.matchMedia('(max-width: 767px)').matches;
 
-        // Remove both classes then add correct one
+        // Remove all navigation classes
         this.navContainer.classList.remove('mobile-nav', 'sidebar-nav', 'expanded');
 
-        if (isMobile) {
+        if (this.isMobile) {
+            // Mobile layout - bottom navigation
             this.navContainer.classList.add('mobile-nav');
-            // On mobile we want horizontal bar with labels visible - CSS handles that
+            this.disablePointerExpansion();
         } else {
+            // Desktop layout - sidebar navigation
             this.navContainer.classList.add('sidebar-nav');
-            // do not auto-expand; expansion will occur on pointerenter only
+            this.enablePointerExpansion();
+        }
+
+        // If switching between modes, ensure proper state
+        if (wasMobile !== this.isMobile) {
+            this.setActivePage(); // Re-set active page for new layout
         }
     }
 
@@ -103,6 +107,7 @@ class NavigationSystem {
         const current = window.location.pathname.split('/').pop() || 'index.html';
         const items = this.navContainer.querySelectorAll('.nav-item');
         let activeFound = false;
+        
         items.forEach(i => {
             const file = i.getAttribute('data-file');
             if (file === current) {
@@ -115,6 +120,7 @@ class NavigationSystem {
             }
         });
 
+        // Default to first item if no active page found
         if (!activeFound && items.length) {
             items[0].classList.add('active');
             items[0].setAttribute('aria-current', 'page');
@@ -124,44 +130,51 @@ class NavigationSystem {
     setupPointerExpansion() {
         if (!this.navContainer) return;
 
-        // remove previous handlers if they exist
-        if (this._pointerEnterHandler) {
-            this.navContainer.removeEventListener('pointerenter', this._pointerEnterHandler);
-        }
-        if (this._pointerLeaveHandler) {
-            this.navContainer.removeEventListener('pointerleave', this._pointerLeaveHandler);
-        }
+        // Remove existing handlers
+        this.disablePointerExpansion();
 
-        // Only set pointer handlers on desktop (non-mobile)
-        const isMobile = window.matchMedia('(max-width: 767px)').matches;
-        if (isMobile) {
-            // Ensure expanded class is not present on mobile (mobile uses different layout)
-            this.navContainer.classList.remove('expanded');
-            return;
+        // Only set up pointer handlers for desktop
+        if (!this.isMobile) {
+            this.enablePointerExpansion();
         }
+    }
 
-        // Pointer enter: expand nav (only when pointer truly enters)
-        this._pointerEnterHandler = (e) => {
-            // Guard: ignore if this event came from a child entering — only expand if the nav itself or its immediate content is entered.
-            // pointerenter is sufficient: it fires when entering the element.
+    enablePointerExpansion() {
+        if (this._pointerEnterHandler || this._pointerLeaveHandler) return;
+
+        this._pointerEnterHandler = () => {
             this.navContainer.classList.add('expanded');
         };
 
-        // Pointer leave: collapse nav
-        this._pointerLeaveHandler = (e) => {
-            // Collapse when pointer leaves the nav container
+        this._pointerLeaveHandler = () => {
             this.navContainer.classList.remove('expanded');
         };
 
         this.navContainer.addEventListener('pointerenter', this._pointerEnterHandler);
         this.navContainer.addEventListener('pointerleave', this._pointerLeaveHandler);
 
-        // Prevent touch interactions expanding nav accidentally
+        // Prevent touch expansion on hybrid devices
         this.navContainer.addEventListener('touchstart', () => {
-            this.navContainer.classList.remove('expanded');
+            if (!this.isMobile) {
+                this.navContainer.classList.remove('expanded');
+            }
         }, { passive: true });
+    }
+
+    disablePointerExpansion() {
+        if (this._pointerEnterHandler) {
+            this.navContainer.removeEventListener('pointerenter', this._pointerEnterHandler);
+            this._pointerEnterHandler = null;
+        }
+        if (this._pointerLeaveHandler) {
+            this.navContainer.removeEventListener('pointerleave', this._pointerLeaveHandler);
+            this._pointerLeaveHandler = null;
+        }
+        
+        // Ensure expanded class is removed when disabling
+        this.navContainer.classList.remove('expanded');
     }
 }
 
-// Initialize navigation when script loads
+// Initialize navigation system
 const navigation = new NavigationSystem();

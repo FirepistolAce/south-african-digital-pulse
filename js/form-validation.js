@@ -1,6 +1,4 @@
-// form-validation.js - Contact form validation for South African Digital Pulse
-// Student: Rofhiwa Sikhweni
-// This handles form validation with real-time feedback and error messages
+
 
 class FormValidator {
     constructor(formId) {

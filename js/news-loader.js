@@ -1,7 +1,3 @@
-// news-loader.js - Complete News Loading and Search Functionality
-// Student: Rofhiwa Sikhweni
-// This file handles news API integration, search functionality, and news display
-// It meets the brief requirement for dynamic search/filter with external API
 
 class NewsLoader {
     constructor() {
@@ -500,7 +496,7 @@ class NewsLoader {
         statusElement.className = 'news-status-message';
         statusElement.innerHTML = `
             <div class="status-content">
-                <span class="status-icon">📰</span>
+                <span class="status-icon"></span>
                 <span class="status-text">${message}</span>
             </div>
         `;

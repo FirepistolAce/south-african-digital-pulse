@@ -176,7 +176,7 @@ class CommunityManager {
 
     // ✅ WORKING DISCUSSION OPENING
     openDiscussion(threadId) {
-        console.log(`💬 Opening discussion ${threadId}`);
+        console.log(` Opening discussion ${threadId}`);
         
         const discussion = document.querySelector(`[data-thread-id="${threadId}"]`);
         if (!discussion) {
@@ -251,7 +251,7 @@ class CommunityManager {
         const commentText = textarea.value.trim();
         
         if (commentText) {
-            this.showNotification('💬 Comment posted successfully!');
+            this.showNotification(' Comment posted successfully!');
             textarea.value = '';
         } else {
             this.showNotification('⚠️ Please enter a comment before posting.');

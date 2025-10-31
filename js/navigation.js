@@ -1,5 +1,4 @@
-// navigation.js - Dynamic navigation system for South African Digital Pulse
-// This creates consistent navigation across all pages as required by the brief
+
 
 class NavigationSystem {
     constructor() {

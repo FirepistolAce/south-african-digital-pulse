@@ -1,11 +1,5 @@
-/* css/style.css
-   Clean, consolidated stylesheet for South African Digital Pulse.
-   - Preserves original selectors and color tokens.
-   - Adds hero (img + overlay) styling with gradient.
-   - Responsive: desktop sidebar nav / mobile bottom nav included.
-*/
 
-/* ===== VARIABLES ===== */
+
 :root{
   --primary-color: #7F3C3C;
   --secondary-color: #3C7F7F;

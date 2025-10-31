@@ -434,39 +434,42 @@ p {
     z-index: 1200;
   }
 
-  /* Mobile nav list - horizontal layout */
+  /* Mobile nav list - grid layout for perfect centering */
   .nav-list {
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-around !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
     width: 100% !important;
     height: 100% !important;
     padding: 0 !important;
+    margin: 0 !important;
     gap: 0 !important;
-    padding-top: 0 !important;
+    align-items: center !important;
+    justify-items: center !important;
   }
 
   .nav-list li {
-    width: auto !important;
+    width: 100% !important;
+    height: 100% !important;
     display: flex !important;
     justify-content: center !important;
+    align-items: center !important;
   }
 
-  /* Mobile nav items - vertical layout with icon above text */
+  /* Mobile nav items - perfectly centered */
   .nav-item {
+    display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
-    padding: 0.35rem 0.5rem !important;
+    padding: 0.25rem !important;
     margin: 0 !important;
-    width: auto !important;
+    width: 100% !important;
+    height: 100% !important;
     min-width: 0 !important;
-    border-radius: 6px !important;
+    border-radius: 0 !important;
     text-align: center !important;
-    flex: 1 1 auto !important;
-    max-width: 80px !important;
-    min-height: auto !important;
     gap: 0.15rem !important;
+    min-height: auto !important;
   }
 
   /* Remove hover effects that don't work well on mobile */
@@ -478,7 +481,7 @@ p {
   /* Mobile icons */
   .nav-icon {
     font-size: 1.35rem !important;
-    margin-bottom: 0.15rem !important;
+    margin: 0 !important;
     transform: none !important;
   }
 
@@ -492,6 +495,7 @@ p {
     display: block !important;
     line-height: 1.2;
     height: auto !important;
+    width: 100% !important;
   }
 
   /* Main content adjustments for mobile */
@@ -530,7 +534,19 @@ p {
   }
 }
 
-/* ===== DESKTOP TWEAKS ===== */
+/* ===== SMALL DESKTOP/TABLET FIXES ===== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Ensure desktop sidebar works properly on smaller desktop screens */
+  #nav-container {
+    width: var(--nav-collapsed-width);
+  }
+  
+  .main-content {
+    margin-left: var(--nav-collapsed-width);
+  }
+}
+
+/* ===== LARGE DESKTOP TWEAKS ===== */
 @media (min-width: 1024px) {
   .hero-subtitle {
     max-width: 60%;

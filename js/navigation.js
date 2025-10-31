@@ -1,4 +1,4 @@
-// navigation.js - Simplified for hover-only desktop navigation and mobile bottom nav
+// navigation.js - Perfectly centered mobile bottom navigation
 class NavigationSystem {
     constructor() {
         this.pages = [
@@ -25,6 +25,9 @@ class NavigationSystem {
         window.addEventListener('resize', () => {
             this.updateNavPresentation();
         });
+
+        // Initial check
+        this.updateNavPresentation();
     }
 
     createNavigation() {

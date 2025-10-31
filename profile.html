@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Profile | South African Digital Pulse</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Josefin+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <meta name="description" content="Your profile on South African Digital Pulse" />
+</head>
+
+<body>
+    <div id="nav-container" aria-live="polite"></div>
+
+    <main class="main-content" role="main" id="content">
+        <header class="page-header" role="banner">
+            <h1>Profile</h1>
+            <p>Manage your profile, preferences and contributions to South African Digital Pulse.</p>
+        </header>
+
+        <section class="profile-section" aria-labelledby="profile-heading">
+            <h2 id="profile-heading">Your Details</h2>
+
+            <article class="profile-card">
+                <div class="profile-avatar" aria-hidden="true"
+                    style="width:140px;height:140px;border-radius:999px;background:#eee;display:inline-block;"></div>
+
+                <div class="profile-info"
+                    style="display:inline-block;vertical-align:top;margin-left:1.25rem;max-width:720px;">
+                    <h3>R. Sikhweni</h3>
+                    <p class="member-role">Student Developer & Designer</p>
+                    <p>Manage your public profile info, links to portfolios, and community preferences here.</p>
+
+                    <div style="margin-top:1rem;">
+                        <a href="about.html" class="btn btn-outline" style="margin-right:0.5rem;">View About</a>
+                        <a href="community.html" class="btn btn-primary">Go to Community</a>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="profile-settings" aria-labelledby="settings-heading">
+            <h2 id="settings-heading">Profile Settings</h2>
+
+            <form class="contact-form" style="max-width:760px;">
+                <div class="form-group">
+                    <label for="displayName">Display name</label>
+                    <input id="displayName" placeholder="R. Sikhweni" />
+                </div>
+
+                <div class="form-group">
+                    <label for="bio">Short bio</label>
+                    <textarea id="bio" rows="4" placeholder="Tell the community about you..."></textarea>
+                </div>
+
+                <button type="button" class="submit-btn">Save Profile</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 South African Digital Pulse</p>
+    </footer>
+
+    <script src="js/navigation.js" defer></script>
+    <script src="js/animations.js" defer></script>
+    <noscript>
+        <p class="error-message">Enable JavaScript for full functionality.</p>
+    </noscript>
+</body>
+
+</html>

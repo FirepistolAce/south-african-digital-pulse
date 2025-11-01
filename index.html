@@ -16,24 +16,24 @@
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Josefin+Sans:wght@300;400;500&display=swap"
         rel="stylesheet" />
 
-    <!-- SEO / Accessibility -->
+
     <meta name="description"
         content="South African Digital Pulse — connecting creative minds across South Africa with news, events and resources for digital artists." />
 </head>
 
 <body>
-    <!-- Navigation (injected by js/navigation.js) -->
+
     <div id="nav-container" aria-live="polite"></div>
 
     <main class="main-content" id="content" role="main">
-        <!-- HERO: full-width image (img element), gradient overlay, and CTAs -->
+
         <section class="hero-section" aria-labelledby="hero-title">
-            <!-- Decorative image (semantic alt kept minimal because it's decorative) -->
+
             <div class="hero-media" aria-hidden="true">
                 <img src="assets/hero.jpeg" alt="" class="hero-image">
             </div>
 
-            <!-- Overlay content: heading, subtitle, CTAs -->
+
             <div class="hero-overlay" role="region" aria-label="Introduction">
                 <h1 id="hero-title" class="hero-heading">South African Digital Pulse</h1>
                 <p class="hero-subtitle">Connecting creative minds across South Africa — resources, events, and
@@ -45,7 +45,7 @@
                     <a href="community.html" class="btn btn-outline" aria-label="Join community">Join Community</a>
                 </div>
 
-                <!-- Search that visually sits under the hero (mobile-friendly like YouTube) -->
+
                 <div class="hero-search" role="search" aria-label="Search articles">
                     <label for="newsSearch" class="visually-hidden">Search articles</label>
                     <input id="newsSearch" name="newsSearch" type="search" placeholder="Search articles, resources..."
@@ -55,20 +55,19 @@
             </div>
         </section>
 
-        <!-- FEATURED NEWS (unchanged structure) -->
         <section class="featured-news" id="newsSection" aria-labelledby="news-heading">
             <header class="section-header">
                 <h2 id="news-heading">Latest from South Africa</h2>
                 <p>Stay updated with current events and creative developments across the country.</p>
             </header>
 
-            <!-- JS will populate news here -->
+
             <div class="news-grid" id="newsContainer" aria-live="polite">
                 <p class="loading-message">Loading latest news...</p>
             </div>
         </section>
 
-        <!-- COMMUNITY HIGHLIGHTS - preserved exactly as requested -->
+
         <section class="community-highlights" aria-labelledby="highlights-heading">
             <h2 id="highlights-heading">Community Features</h2>
             <div class="highlights-grid">

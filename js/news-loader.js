@@ -530,16 +530,16 @@ class NewsLoader {
         }
     }
 
-    // Public method to refresh news - can be called from other scripts
+
     refreshNews() {
-        // This method allows external code to refresh the news content
+
         console.log('Refreshing news articles...');
         this.loadNewsFromMultipleSources();
     }
 
-    // Public method to filter by source - can be called from other scripts
+
     filterBySource(sourceName) {
-        // This method filters articles by news source
+
         const filtered = sourceName === 'all' 
             ? this.articles 
             : this.articles.filter(article => article.source.name === sourceName);
@@ -547,7 +547,7 @@ class NewsLoader {
     }
 }
 
-// Enhanced CSS styles for news functionality
+
 const newsStyles = `
 .news-loading-state {
     text-align: center;
@@ -810,21 +810,21 @@ const newsStyles = `
 }
 `;
 
-// Inject the enhanced news styles
+
 const styleElement = document.createElement('style');
 styleElement.textContent = newsStyles;
 document.head.appendChild(styleElement);
 
-// Initialize news loader when the page loads
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Create global instance so it can be accessed from HTML onclick handlers
+
     window.newsLoader = new NewsLoader();
     
-    // Log initialization for debugging
+
     console.log('South African Digital Pulse - Enhanced news system ready');
 });
 
-// Export for module systems (if needed)
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = NewsLoader;
 }

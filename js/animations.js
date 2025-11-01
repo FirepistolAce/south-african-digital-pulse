@@ -1,5 +1,4 @@
-// animations.js - GSAP animations for South African Digital Pulse
-// This implements the required 4+ GSAP animations per page
+
 
 class PageAnimations {
     constructor() {

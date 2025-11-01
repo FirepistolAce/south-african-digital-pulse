@@ -673,9 +673,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Test that the manager is accessible
         setTimeout(() => {
             if (window.communityManager && typeof window.communityManager.registerForEvent === 'function') {
-                console.log('✅ TEST PASSED: communityManager is fully functional!');
+                console.log(' TEST PASSED: communityManager is fully functional!');
             } else {
-                console.log('❌ TEST FAILED: communityManager not working properly');
+                console.log(' TEST FAILED: communityManager not working properly');
             }
         }, 1000);
     } })

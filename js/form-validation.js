@@ -612,12 +612,12 @@ const formValidationStyles = `
 }
 `;
 
-// Inject the form validation styles
+
 const formStyleElement = document.createElement('style');
 formStyleElement.textContent = formValidationStyles;
 document.head.appendChild(formStyleElement);
 
-// Initialize form validation when the page loads
+
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {

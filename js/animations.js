@@ -48,7 +48,7 @@ class PageAnimations {
     }
 
     setupCommonAnimations() {
-        // ANIMATION 1: Navigation entrance animation - FIXED SELECTOR
+        // ANIMATION 1: Navigation entrance animation 
         this.animateNavigation();
         
         // ANIMATION 2: Page load sequence with timeline

@@ -1,4 +1,4 @@
-// navigation.js - Perfectly centered mobile bottom navigation with SVG icons
+
 class NavigationSystem {
     constructor() {
         this.pages = [

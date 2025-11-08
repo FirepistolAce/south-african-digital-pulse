@@ -919,3 +919,44 @@ a:focus, button:focus, input:focus {
         flex-direction: column;
     }
 }
+/* === MOBILE NAVBAR FIXES ONLY === */
+
+/* Evenly space nav items on mobile without breaking layout */
+@media (max-width: 768px) {
+  #nav-container {
+    display: flex;
+    justify-content: space-evenly; /* evenly space all icons */
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0; /* keep even spacing */
+  }
+
+  #nav-container .nav-item {
+    flex: 1; /* each takes equal width */
+    text-align: center;
+  }
+
+  #nav-container .nav-item .nav-text {
+    display: block;
+    font-size: 0.75rem;
+  }
+}
+
+/* === ACTIVE TAB STYLE (same as desktop highlight) === */
+#nav-container .nav-item.active {
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+/* make sure icons also turn white/teal when active */
+#nav-container .nav-item.active .nav-icon {
+  color: var(--text-light);
+}
+/* === MOBILE NAVBAR: remove text labels under icons === */
+@media (max-width: 768px) {
+  #nav-container .nav-item .nav-text {
+    display: none !important; /* hide text on mobile for cleaner look */
+  }
+}

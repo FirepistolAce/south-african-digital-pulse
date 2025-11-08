@@ -1,4 +1,3 @@
-
 class NewsLoader {
     constructor() {
         // Initialize properties
@@ -26,6 +25,77 @@ class NewsLoader {
         
         // Set up search functionality
         this.setupSearchFunctionality();
+        
+        // Set up external link handlers
+        this.setupExternalLinkHandlers();
+    }
+
+    setupExternalLinkHandlers() {
+        // This method sets up event listeners for external links
+        // It shows warning messages when users click external links
+        
+        document.addEventListener('click', (e) => {
+            // Check if the clicked element is a read more button
+            if (e.target.classList.contains('read-more-button')) {
+                e.preventDefault();
+                const articleUrl = e.target.getAttribute('href');
+                this.showExternalLinkWarning(articleUrl);
+            }
+        });
+    }
+
+    showExternalLinkWarning(articleUrl) {
+        // This method shows a warning when users click external links
+        // It informs them they're leaving the site and opens in new tab
+        
+        // Create warning overlay
+        const warningOverlay = document.createElement('div');
+        warningOverlay.className = 'external-link-warning-overlay';
+        
+        // Create warning modal
+        const warningModal = document.createElement('div');
+        warningModal.className = 'external-link-warning-modal';
+        
+        warningModal.innerHTML = `
+            <div class="warning-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            <h3>Leaving South African Digital Pulse</h3>
+            <p>You are now going to an external news website. The article will open in a new tab so you can easily return to our site.</p>
+            <div class="warning-actions">
+                <button class="btn btn-primary external-link-continue">Continue to Article</button>
+                <button class="btn btn-outline external-link-cancel">Stay Here</button>
+            </div>
+        `;
+
+        warningOverlay.appendChild(warningModal);
+        document.body.appendChild(warningOverlay);
+
+        // Add event listeners to buttons
+        const continueBtn = warningOverlay.querySelector('.external-link-continue');
+        const cancelBtn = warningOverlay.querySelector('.external-link-cancel');
+
+        continueBtn.addEventListener('click', () => {
+            // Open in new tab and close warning
+            window.open(articleUrl, '_blank', 'noopener,noreferrer');
+            document.body.removeChild(warningOverlay);
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            // Just close the warning
+            document.body.removeChild(warningOverlay);
+        });
+
+        // Close when clicking outside modal
+        warningOverlay.addEventListener('click', (e) => {
+            if (e.target === warningOverlay) {
+                document.body.removeChild(warningOverlay);
+            }
+        });
     }
 
     async loadNewsFromMultipleSources() {
@@ -234,7 +304,7 @@ class NewsLoader {
                         <span class="publish-date">${date}</span>
                         <span class="author-name">By ${article.author}</span>
                     </div>
-                    <a href="${article.url}" target="_blank" rel="noopener" class="read-more-button">
+                    <a href="${article.url}" class="read-more-button">
                         Read Full Story ↗
                     </a>
                 </div>
@@ -349,7 +419,7 @@ class NewsLoader {
                     <h3>No articles found</h3>
                     <p>Your search for "<strong>${query}</strong>" didn't match any news articles.</p>
                     <p>Try searching with different keywords or browse all articles.</p>
-                    <button class="primary-button" onclick="newsLoader.displayNews(newsLoader.articles)">
+                    <button class="btn btn-primary" onclick="newsLoader.displayNews(newsLoader.articles)">
                         Show All News Articles
                     </button>
                 </div>
@@ -362,7 +432,7 @@ class NewsLoader {
                         <h3>Search Results</h3>
                         <p>Found ${filteredArticles.length} articles matching "${query}"</p>
                     </div>
-                    <button class="clear-search-btn" onclick="newsLoader.displayNews(newsLoader.articles)">
+                    <button class="btn btn-outline" onclick="newsLoader.displayNews(newsLoader.articles)">
                         Clear Search
                     </button>
                 </div>
@@ -392,7 +462,7 @@ class NewsLoader {
                                 <span class="news-date">${date}</span>
                                 <span class="news-author">${article.author}</span>
                             </div>
-                            <a href="${article.url}" target="_blank" class="read-more">
+                            <a href="${article.url}" class="read-more-button">
                                 Read Full Story ↗
                             </a>
                         </div>
@@ -522,7 +592,7 @@ class NewsLoader {
                     <h3>No articles available</h3>
                     <p>There are no news articles to display at the moment.</p>
                     <p>This could be due to temporary API issues or no recent news matching your criteria.</p>
-                    <button class="retry-button" onclick="newsLoader.loadNewsFromMultipleSources()">
+                    <button class="btn btn-primary" onclick="newsLoader.loadNewsFromMultipleSources()">
                         Try Loading Again
                     </button>
                 </div>
@@ -530,16 +600,12 @@ class NewsLoader {
         }
     }
 
-
     refreshNews() {
-
         console.log('Refreshing news articles...');
         this.loadNewsFromMultipleSources();
     }
 
-
     filterBySource(sourceName) {
-
         const filtered = sourceName === 'all' 
             ? this.articles 
             : this.articles.filter(article => article.source.name === sourceName);
@@ -547,8 +613,82 @@ class NewsLoader {
     }
 }
 
-
+// Add the external link warning styles to the existing newsStyles
 const newsStyles = `
+/* External Link Warning Styles */
+.external-link-warning-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.external-link-warning-modal {
+    background: var(--background-light);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    max-width: 500px;
+    margin: var(--spacing-md);
+    text-align: center;
+    box-shadow: var(--shadow-medium);
+    border: 2px solid var(--primary-color);
+    animation: slideUp 0.3s ease;
+}
+
+.external-link-warning-modal h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+}
+
+.external-link-warning-modal p {
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.6;
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+.warning-icon {
+    margin-bottom: var(--spacing-md);
+}
+
+.warning-icon svg {
+    color: var(--primary-color);
+}
+
+.warning-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Rest of your existing news styles remain exactly the same */
 .news-loading-state {
     text-align: center;
     padding: 60px 30px;
@@ -807,23 +947,26 @@ const newsStyles = `
         align-items: flex-start;
         gap: 8px;
     }
+    
+    .warning-actions {
+        flex-direction: column;
+    }
+    
+    .external-link-warning-modal {
+        margin: var(--spacing-sm);
+        padding: var(--spacing-md);
+    }
 }
 `;
-
 
 const styleElement = document.createElement('style');
 styleElement.textContent = newsStyles;
 document.head.appendChild(styleElement);
 
-
 document.addEventListener('DOMContentLoaded', function() {
-
     window.newsLoader = new NewsLoader();
-    
-
     console.log('South African Digital Pulse - Enhanced news system ready');
 });
-
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = NewsLoader;

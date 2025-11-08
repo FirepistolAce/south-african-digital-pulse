@@ -375,7 +375,7 @@ class FormValidator {
                 }
             );
             
-            // Remove message after 5 seconds
+            
             gsap.delayedCall(5, () => {
                 gsap.to(messageElement, {
                     opacity: 0,
@@ -390,10 +390,10 @@ class FormValidator {
     }
 
     showErrorState() {
-        // Show overall form error state
+        
         const submitButton = this.form.querySelector('button[type="submit"]');
         
-        // Shake animation for error state
+        
         if (typeof gsap !== 'undefined') {
             gsap.to(submitButton, {
                 x: 10,
@@ -404,12 +404,12 @@ class FormValidator {
             });
         }
         
-        // Scroll to first error
+        
         this.scrollToFirstError();
     }
 
     scrollToFirstError() {
-        // Scroll to the first field with an error
+    
         const firstErrorField = Object.values(this.fields).find(field => 
             field && field.classList.contains('field-error')
         );
@@ -428,7 +428,7 @@ class FormValidator {
     }
 }
 
-// Enhanced CSS styles for form validation
+
 const formValidationStyles = `
 .field-error {
     border-color: #e74c3c !important;

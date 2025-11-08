@@ -14,7 +14,7 @@ class NavigationSystem {
         this.init();
     }
 
-    // ===== SVG Icons =====
+    
     getHomeIcon() {
         return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -61,7 +61,7 @@ class NavigationSystem {
         </svg>`;
     }
 
-    // ===== Initialization =====
+    
     init() {
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.createNavigation());
@@ -111,7 +111,7 @@ class NavigationSystem {
             this.navContainer.classList.add('sidebar-nav');
         }
 
-        // --- Ensure horizontal fit for mobile ---
+        
         const navList = this.navContainer.querySelector('.nav-list');
         if (this.isMobile) {
             navList.style.display = 'flex';
@@ -163,7 +163,7 @@ class NavigationSystem {
     }
 }
 
-// === Inline SVG styling ===
+
 const addSvgIconStyles = () => {
     const style = document.createElement('style');
     style.textContent = `

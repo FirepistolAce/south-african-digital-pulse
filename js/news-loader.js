@@ -335,8 +335,7 @@ class NewsLoader {
     }
 
     setupSearchFunctionality() {
-        // This method sets up the search functionality
-        // It adds event listeners to the search input and button
+   
         
         if (this.searchButton && this.searchInput) {
             // Search when the search button is clicked
@@ -363,9 +362,7 @@ class NewsLoader {
     }
 
     handleNewsSearch(searchQuery) {
-        // This method handles the news search functionality
-        // It filters articles based on the search query and displays results
-        
+      
         const query = searchQuery.trim().toLowerCase();
         
         // Log search activity for debugging
@@ -378,8 +375,7 @@ class NewsLoader {
             return;
         }
         
-        // Filter articles based on search query
-        // Search in title, description, and source name
+       
         const filteredArticles = this.articles.filter(article => {
             // Check if article exists and has required properties
             if (!article || !article.title) return false;
@@ -389,7 +385,7 @@ class NewsLoader {
             const description = article.description ? article.description.toLowerCase() : '';
             const source = article.source?.name ? article.source.name.toLowerCase() : '';
             
-            // Return true if query is found in any of the searchable fields
+
             return title.includes(query) || 
                    description.includes(query) || 
                    source.includes(query);
@@ -403,8 +399,7 @@ class NewsLoader {
     }
 
     displaySearchResults(filteredArticles, query) {
-        // This method displays the search results or a "no results" message
-        // It provides user feedback for search operations
+       
         
         if (!this.newsContainer) {
             console.error('News container not found');
@@ -480,14 +475,12 @@ class NewsLoader {
     }
 
     highlightSearchTerms(text, query) {
-        // This method highlights the search terms in the text
-        // It wraps matching terms with a highlight span for better visibility
+     
         
         if (!text || !query) return text;
         
         try {
-            // Create a regular expression to find all occurrences of the query
-            // 'gi' flags mean global and case-insensitive search
+         
             const regex = new RegExp(`(${this.escapeRegex(query)})`, 'gi');
             
             // Replace matches with highlighted span
@@ -500,23 +493,20 @@ class NewsLoader {
     }
 
     escapeRegex(string) {
-        // This method escapes special characters in the search string
-        // This prevents errors when creating regular expressions
+        // This method escapes special characters in a string for regex use
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
     showSearchStatus(message) {
-        // This method could be used to show search status messages
-        // Currently used for debugging and future enhancements
+      
         console.log('Search status:', message);
     }
 
     animateNewsCards() {
-        // This method animates news cards when they're added to the page
-        // It uses GSAP for smooth, professional animations
+       
         
         if (typeof gsap !== 'undefined') {
-            // Animate each news card with a slight delay between them
+           
             gsap.fromTo('.news-card', 
                 {
                     y: 30,    // Start slightly lower
@@ -534,8 +524,7 @@ class NewsLoader {
     }
 
     showLoadingState() {
-        // This method shows a loading animation while news is being fetched
-        // It provides user feedback during loading operations
+      
         
         if (this.newsContainer) {
             this.newsContainer.innerHTML = `
@@ -554,8 +543,7 @@ class NewsLoader {
     }
 
     showStatusMessage(message) {
-        // This method shows status messages at the top of the news container
-        // It provides information about the news source or content type
+       
         
         const existingMessage = this.newsContainer.querySelector('.news-status-message');
         if (existingMessage) {
@@ -583,8 +571,7 @@ class NewsLoader {
     }
 
     showNoResultsMessage() {
-        // This method shows a message when there are no articles to display
-        // It provides helpful information to the user
+        
         
         if (this.newsContainer) {
             this.newsContainer.innerHTML = `
@@ -613,7 +600,7 @@ class NewsLoader {
     }
 }
 
-// Add the external link warning styles to the existing newsStyles
+
 const newsStyles = `
 /* External Link Warning Styles */
 .external-link-warning-overlay {

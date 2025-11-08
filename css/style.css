@@ -497,7 +497,7 @@ p {
     width: 100% !important;
   }
 
-  /* Main content adjustments for mobile */
+
   .main-content {
     margin-left: 0 !important;
     margin-bottom: var(--bottom-nav-height) !important;
@@ -505,7 +505,6 @@ p {
     padding-bottom: calc(var(--spacing-sm) + var(--bottom-nav-height)) !important;
   }
 
-  /* Hero section mobile adjustments */
   .hero-overlay {
     padding: var(--spacing-md);
   }
@@ -899,7 +898,7 @@ a:focus, button:focus, input:focus {
     background: var(--primary-color);
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .resources-grid {
         grid-template-columns: 1fr;
@@ -919,9 +918,8 @@ a:focus, button:focus, input:focus {
         flex-direction: column;
     }
 }
-/* === MOBILE NAVBAR FIXES ONLY === */
 
-/* Evenly space nav items on mobile without breaking layout */
+
 @media (max-width: 768px) {
   #nav-container {
     display: flex;
@@ -942,7 +940,7 @@ a:focus, button:focus, input:focus {
   }
 }
 
-/* === ACTIVE TAB STYLE (same as desktop highlight) === */
+
 #nav-container .nav-item.active {
   background-color: var(--secondary-color);
   color: var(--text-light);
@@ -950,11 +948,11 @@ a:focus, button:focus, input:focus {
   transition: all 0.3s ease;
 }
 
-/* make sure icons also turn white/teal when active */
+
 #nav-container .nav-item.active .nav-icon {
   color: var(--text-light);
 }
-/* === MOBILE NAVBAR: remove text labels under icons === */
+
 @media (max-width: 768px) {
   #nav-container .nav-item .nav-text {
     display: none !important; /* hide text on mobile for cleaner look */

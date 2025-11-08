@@ -4,7 +4,7 @@ class CommunityManager {
     constructor() {
         console.log(' CommunityManager constructor called');
         
-        // Track user interactions
+        
         this.registeredEvents = new Set();
         this.interestedCollaborations = new Set();
         this.openedDiscussions = new Set();
@@ -30,33 +30,32 @@ class CommunityManager {
     setupAllEventListeners() {
         console.log(' Setting up event listeners...');
         
-        // Setup search functionality
+        
         this.setupSearchFunctionality();
         
-        // The onclick handlers in HTML should work directly
-        // But let's also add event listeners as backup
+     
         this.setupBackupEventListeners();
     }
 
     setupSearchFunctionality() {
         console.log(' Setting up search functionality...');
         
-        // Add search bars to all community sections
+        
         const sections = document.querySelectorAll('.community-events, .discussion-forum, .collaboration-board');
         
         sections.forEach(section => {
-            // Create search input
+            
             const searchInput = document.createElement('input');
             searchInput.type = 'text';
             searchInput.className = 'community-search';
             searchInput.placeholder = this.getSearchPlaceholder(section);
             
-            // Add input event listener
+            
             searchInput.addEventListener('input', (e) => {
                 this.handleCommunitySearch(e.target.value, section);
             });
             
-            // Insert search bar at the top of the section
+            
             const firstChild = section.querySelector('div');
             if (firstChild) {
                 section.insertBefore(searchInput, firstChild);
@@ -111,7 +110,7 @@ class CommunityManager {
             });
         });
         
-        // Backup view all buttons
+        
         document.querySelectorAll('.view-all-btn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const section = e.target.closest('section');
@@ -228,13 +227,13 @@ class CommunityManager {
             </div>
         `;
         
-        // Add close functionality
+        
         const closeBtn = modal.querySelector('.close-modal');
         closeBtn.addEventListener('click', () => {
             modal.remove();
         });
         
-        // Add comment functionality
+        
         const postBtn = modal.querySelector('.post-comment-btn');
         postBtn.addEventListener('click', () => {
             this.postComment(postBtn);
@@ -653,13 +652,13 @@ document.head.appendChild(communityStyleElement);
 document.addEventListener('DOMContentLoaded', function() {
     console.log(' DOM fully loaded, initializing CommunityManager...');
     
-    // Check if we're on a page with community sections
+    
     const communitySections = document.querySelector('.community-events, .discussion-forum, .collaboration-board');
     
     if (communitySections) {
         console.log(' Community sections found, creating CommunityManager...');
         
-        // Create and initialize the community manager
+        
         window.communityManager = new CommunityManager();
         
         console.log(' CommunityManager created successfully!');
@@ -670,7 +669,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('   - View All buttons');
         console.log('   - Search functionality');
         
-        // Test that the manager is accessible
+        
         setTimeout(() => {
             if (window.communityManager && typeof window.communityManager.registerForEvent === 'function') {
                 console.log(' TEST PASSED: communityManager is fully functional!');

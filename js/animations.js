@@ -252,8 +252,7 @@ class PageAnimations {
     setupMediaAnimations() {
         if (typeof ScrollTrigger === 'undefined') return;
         
-        // Media page specific animations
-        // Animate filter buttons
+     
         const filterButtons = document.querySelectorAll('.filter-btn');
         if (filterButtons.length > 0) {
             gsap.from(filterButtons, {
@@ -273,8 +272,7 @@ class PageAnimations {
     setupCommunityAnimations() {
         if (typeof ScrollTrigger === 'undefined') return;
         
-        // Community page specific animations
-        // Stagger animation for event cards
+      
         const eventCards = document.querySelectorAll('.event-card');
         if (eventCards.length > 0) {
             gsap.from(eventCards, {
@@ -290,7 +288,7 @@ class PageAnimations {
             });
         }
         
-        // Animate discussion threads
+        
         const discussionThreads = document.querySelectorAll('.discussion-thread');
         if (discussionThreads.length > 0) {
             gsap.from(discussionThreads, {
@@ -310,8 +308,7 @@ class PageAnimations {
     setupAboutAnimations() {
         if (typeof ScrollTrigger === 'undefined') return;
         
-        // About page specific animations
-        // Animate team member section
+        
         const teamMembers = document.querySelectorAll('.team-member');
         if (teamMembers.length > 0) {
             gsap.from(teamMembers, {
@@ -327,7 +324,7 @@ class PageAnimations {
             });
         }
         
-        // Animate FAQ items
+        
         const faqItems = document.querySelectorAll('.faq-item');
         if (faqItems.length > 0) {
             gsap.from(faqItems, {
@@ -344,7 +341,7 @@ class PageAnimations {
         }
     }
 
-    // Utility method to refresh animations when new content loads
+    
     refreshAnimations() {
         if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
@@ -375,5 +372,5 @@ if (document.readyState === 'loading') {
     initializeAnimations();
 }
 
-// Export for global access
+
 window.PageAnimations = PageAnimations;

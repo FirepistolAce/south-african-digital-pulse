@@ -1230,3 +1230,12 @@ a:focus, button:focus, input:focus {
 .media-search {
   display: none;
 }
+.upload-area.dragging {
+    border: 2px dashed var(--accent-color);
+    background-color: rgba(0,0,0,0.05);
+}
+.uploaded-preview {
+    width: 100%;
+    height: auto;
+    border-radius:8px;
+}

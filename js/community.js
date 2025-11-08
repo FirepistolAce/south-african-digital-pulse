@@ -24,7 +24,7 @@ class CommunityManager {
         // Make sure manager is globally available
         window.communityManager = this;
         
-        console.log('✅ CommunityManager fully initialized and ready');
+        console.log(' CommunityManager fully initialized and ready');
     }
 
     setupAllEventListeners() {
@@ -144,13 +144,13 @@ class CommunityManager {
             this.registeredEvents.delete(eventId);
             button.textContent = 'Register for Event';
             button.classList.remove('registered');
-            this.showNotification(`❌ Unregistered from: ${eventTitle}`);
+            this.showNotification(` Unregistered from: ${eventTitle}`);
         } else {
             // Register
             this.registeredEvents.add(eventId);
             button.textContent = 'Registered ✓';
             button.classList.add('registered');
-            this.showNotification(`✅ Successfully registered for: ${eventTitle}`);
+            this.showNotification(` Successfully registered for: ${eventTitle}`);
         }
         
         this.animateButtonFeedback(button);
@@ -187,7 +187,7 @@ class CommunityManager {
         this.openedDiscussions.add(threadId);
         discussion.classList.add('discussion-opened');
         
-        this.showNotification(`📖 Opening discussion: ${discussionTitle}`);
+        this.showNotification(` Opening discussion: ${discussionTitle}`);
         
         // Show modal after short delay
         setTimeout(() => {
@@ -196,7 +196,7 @@ class CommunityManager {
     }
 
     showDiscussionModal(threadId, title) {
-        console.log(`🪟 Showing modal for discussion: ${title}`);
+        console.log(` Showing modal for discussion: ${title}`);
         
         // Create modal
         const modal = document.createElement('div');
@@ -274,13 +274,13 @@ class CommunityManager {
             this.interestedCollaborations.delete(collabId);
             button.textContent = 'Express Interest';
             button.classList.remove('interested');
-            this.showNotification(`❌ Interest removed from: ${collabTitle}`);
+            this.showNotification(` Interest removed from: ${collabTitle}`);
         } else {
             // Express interest
             this.interestedCollaborations.add(collabId);
             button.textContent = 'Interest Expressed ✓';
             button.classList.add('interested');
-            this.showNotification(`✅ Interest expressed in: ${collabTitle}`);
+            this.showNotification(` Interest expressed in: ${collabTitle}`);
         }
         
         this.animateButtonFeedback(button);
@@ -292,7 +292,7 @@ class CommunityManager {
         this.showNotification(' Loading all upcoming events...');
         
         setTimeout(() => {
-            this.showNotification('✅ All events loaded successfully!');
+            this.showNotification(' All events loaded successfully!');
         }, 1500);
     }
 
@@ -301,7 +301,7 @@ class CommunityManager {
         this.showNotification(' Loading all community discussions...');
         
         setTimeout(() => {
-            this.showNotification('✅ All discussions loaded successfully!');
+            this.showNotification(' All discussions loaded successfully!');
         }, 1500);
     }
 
@@ -310,7 +310,7 @@ class CommunityManager {
         this.showNotification(' Loading all collaboration opportunities...');
         
         setTimeout(() => {
-            this.showNotification('✅ All opportunities loaded successfully!');
+            this.showNotification(' All opportunities loaded successfully!');
         }, 1500);
     }
 

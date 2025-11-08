@@ -1,4 +1,3 @@
-
 class NavigationSystem {
     constructor() {
         this.pages = [
@@ -15,7 +14,7 @@ class NavigationSystem {
         this.init();
     }
 
-    // SVG Icons converted from Lucide React to inline SVG
+    // ===== SVG Icons =====
     getHomeIcon() {
         return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -62,6 +61,7 @@ class NavigationSystem {
         </svg>`;
     }
 
+    // ===== Initialization =====
     init() {
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.createNavigation());
@@ -69,29 +69,24 @@ class NavigationSystem {
             this.createNavigation();
         }
 
-        // Update navigation when viewport changes
-        window.addEventListener('resize', () => {
-            this.updateNavPresentation();
-        });
-
-        // Initial check
+        window.addEventListener('resize', () => this.updateNavPresentation());
         this.updateNavPresentation();
     }
 
     createNavigation() {
         this.navContainer = document.getElementById('nav-container');
         if (!this.navContainer) {
-            console.error('Navigation container element not found');
+            console.error('Navigation container not found');
             return;
         }
 
         const html = `
-            <nav id="main-nav" aria-label="Main website navigation">
+            <nav id="main-nav" aria-label="Main navigation">
                 <ul class="nav-list">
                     ${this.pages.map(p => `
-                        <li>
+                        <li class="nav-li">
                             <a href="${p.file}" class="nav-item" data-file="${p.file}" aria-label="${p.description}">
-                                <span class="nav-icon" aria-hidden="true">${p.icon}</span>
+                                <span class="nav-icon">${p.icon}</span>
                                 <span class="nav-text">${p.name}</span>
                             </a>
                         </li>`).join('')}
@@ -100,37 +95,39 @@ class NavigationSystem {
         `;
 
         this.navContainer.innerHTML = html;
-
-        // Set initial presentation
         this.updateNavPresentation();
-
-        // Attach event handlers
         this.attachKeyboardHandlers();
         this.setActivePage();
-
-        console.log('Navigation created successfully with SVG icons');
     }
 
     updateNavPresentation() {
         if (!this.navContainer) return;
-        
         this.isMobile = window.matchMedia('(max-width: 767px)').matches;
-
-        // Remove all navigation classes
-        this.navContainer.classList.remove('mobile-nav', 'sidebar-nav', 'expanded');
+        this.navContainer.classList.remove('mobile-nav', 'sidebar-nav');
 
         if (this.isMobile) {
-            // Mobile layout - bottom navigation
             this.navContainer.classList.add('mobile-nav');
         } else {
-            // Desktop layout - sidebar navigation (hover-only)
             this.navContainer.classList.add('sidebar-nav');
+        }
+
+        // --- Ensure horizontal fit for mobile ---
+        const navList = this.navContainer.querySelector('.nav-list');
+        if (this.isMobile) {
+            navList.style.display = 'flex';
+            navList.style.flexDirection = 'row';
+            navList.style.flexWrap = 'nowrap';
+            navList.style.justifyContent = 'space-around';
+            navList.style.alignItems = 'center';
+            navList.style.width = '100%';
+            navList.style.overflowX = 'hidden';
+        } else {
+            navList.removeAttribute('style');
         }
     }
 
     attachKeyboardHandlers() {
-        if (!this.navContainer) return;
-        const items = this.navContainer.querySelectorAll('.nav-item');
+        const items = this.navContainer?.querySelectorAll('.nav-item') || [];
         items.forEach(item => {
             item.setAttribute('tabindex', '0');
             item.addEventListener('keydown', (e) => {
@@ -143,11 +140,10 @@ class NavigationSystem {
     }
 
     setActivePage() {
-        if (!this.navContainer) return;
         const current = window.location.pathname.split('/').pop() || 'index.html';
-        const items = this.navContainer.querySelectorAll('.nav-item');
+        const items = this.navContainer?.querySelectorAll('.nav-item') || [];
         let activeFound = false;
-        
+
         items.forEach(i => {
             const file = i.getAttribute('data-file');
             if (file === current) {
@@ -160,7 +156,6 @@ class NavigationSystem {
             }
         });
 
-        // Default to first item if no active page found
         if (!activeFound && items.length) {
             items[0].classList.add('active');
             items[0].setAttribute('aria-current', 'page');
@@ -168,43 +163,60 @@ class NavigationSystem {
     }
 }
 
-// Add CSS for SVG icons
+// === Inline SVG styling ===
 const addSvgIconStyles = () => {
     const style = document.createElement('style');
     style.textContent = `
         .nav-icon svg {
-            width: 24px;
-            height: 24px;
-            transition: all 0.3s ease;
+            width: 22px;
+            height: 22px;
+            transition: transform 0.3s ease;
         }
-        
+
         .nav-item.active .nav-icon svg {
             color: var(--text-light);
         }
-        
+
         .nav-item:hover .nav-icon svg {
             transform: scale(1.1);
         }
-        
-        /* Mobile adjustments for SVG icons */
-        .mobile-nav .nav-icon svg {
-            width: 20px;
-            height: 20px;
+
+        /* Force single row on mobile */
+        .mobile-nav .nav-list {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            justify-content: space-evenly !important;
+            align-items: center !important;
+            gap: 0 !important;
+        }
+
+        .mobile-nav .nav-li {
+            flex: 1 1 auto !important;
+            text-align: center !important;
+        }
+
+        .mobile-nav .nav-item {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            font-size: 0.75rem !important;
+            padding: 0.25rem 0 !important;
+        }
+
+        .mobile-nav .nav-icon {
+            margin: 0;
         }
     `;
     document.head.appendChild(style);
 };
 
-// Initialize navigation system
 const initializeNavigation = () => {
-    // Add SVG icon styles
     addSvgIconStyles();
-    
-    // Initialize navigation
-    const navigation = new NavigationSystem();
+    new NavigationSystem();
 };
 
-// Start initialization
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeNavigation);
 } else {

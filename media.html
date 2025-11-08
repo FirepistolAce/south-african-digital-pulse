@@ -21,55 +21,96 @@
 
     <main class="main-content" role="main">
         <header class="page-header" role="banner">
-            <h1>Media & Creative Content</h1>
-            <p>Explore South African digital art, projects, and curated media.</p>
+            <h1>My Creative Portfolio</h1>
+            <p>Showcasing my 2D animations and digital artwork</p>
         </header>
 
-
-        <section class="filter-controls" aria-labelledby="filter-heading">
-            <h2 id="filter-heading">Browse Content</h2>
-
-            <div class="filter-options" role="toolbar" aria-label="Filter content">
-                <button class="filter-btn active" data-filter="all" type="button">All Content</button>
-                <button class="filter-btn" data-filter="art" type="button">Digital Art</button>
-                <button class="filter-btn" data-filter="news" type="button">News</button>
-                <button class="filter-btn" data-filter="tech" type="button">Technology</button>
-            </div>
-
-            <div class="media-search" role="search" aria-label="Search media">
-                <label for="mediaSearch" class="visually-hidden">Search media</label>
-                <input id="mediaSearch" type="search" placeholder="Search media content..." />
-                <button id="mediaSearchBtn" type="button">Search</button>
-            </div>
-        </section>
-
-
         <section class="media-gallery" aria-labelledby="gallery-heading">
-            <h2 id="gallery-heading" class="visually-hidden">Media Gallery</h2>
-            <div class="gallery-grid" id="mediaContainer" aria-live="polite">
-                <div class="loading-state">
-                    <p>Loading media content...</p>
-                </div>
+            <h2 id="gallery-heading">My Creative Work</h2>
+
+            <div class="gallery-grid">
+                <!-- 2D Animation Videos -->
+                <article class="media-item">
+                    <div class="media-preview">
+                        <div class="placeholder">🎬</div>
+                    </div>
+                    <div class="media-info">
+                        <h3>Character Animation Reel</h3>
+                        <p class="media-meta">2D Animation • 2:30 min</p>
+                        <p>A showcase of character animations and motion studies.</p>
+                    </div>
+                </article>
+
+                <article class="media-item">
+                    <div class="media-preview">
+                        <div class="placeholder">🎨</div>
+                    </div>
+                    <div class="media-info">
+                        <h3>Motion Graphics Project</h3>
+                        <p class="media-meta">Motion Design • 1:15 min</p>
+                        <p>Animated typography and graphic elements for a brand project.</p>
+                    </div>
+                </article>
+
+                <!-- Digital Art Images -->
+                <article class="media-item">
+                    <div class="media-preview">
+                        <div class="placeholder">🖼️</div>
+                    </div>
+                    <div class="media-info">
+                        <h3>Digital Portrait Series</h3>
+                        <p class="media-meta">Digital Painting • 5 pieces</p>
+                        <p>Collection of character portraits with unique South African influences.</p>
+                    </div>
+                </article>
+
+                <article class="media-item">
+                    <div class="media-preview">
+                        <div class="placeholder">✏️</div>
+                    </div>
+                    <div class="media-info">
+                        <h3>Concept Art Collection</h3>
+                        <p class="media-meta">Concept Design • 8 pieces</p>
+                        <p>Environment and character concepts for various projects.</p>
+                    </div>
+                </article>
+
+                <article class="media-item">
+                    <div class="media-preview">
+                        <div class="placeholder">🎭</div>
+                    </div>
+                    <div class="media-info">
+                        <h3>Storyboard Sequences</h3>
+                        <p class="media-meta">Storyboarding • 3 sequences</p>
+                        <p>Animated storyboard panels for narrative projects.</p>
+                    </div>
+                </article>
+
+                <article class="media-item">
+                    <div class="media-preview">
+                        <div class="placeholder">🌟</div>
+                    </div>
+                    <div class="media-info">
+                        <h3>Personal Project Showcase</h3>
+                        <p class="media-meta">Mixed Media • Various</p>
+                        <p>Collection of personal creative experiments and studies.</p>
+                    </div>
+                </article>
             </div>
         </section>
 
+        <section class="upload-section" aria-labelledby="upload-heading">
+            <h2 id="upload-heading">Add New Work</h2>
+            <p>Upload your latest 2D animations or digital artwork to share with the community</p>
 
-        <section class="featured-artist" aria-labelledby="artist-heading">
-            <h2 id="artist-heading">Featured South African Artist</h2>
-            <article class="artist-profile">
-                <div class="artist-info">
-                    <h3>Digital Art Spotlight</h3>
-                    <p>This section highlights emerging South African digital artists and their contributions to the
-                        creative landscape.</p>
-                    <p>Future improvements: artist interviews, portfolio embeds and short video features (to be added).
-                    </p>
-                </div>
-                <div class="artist-visual">
-                    <div class="art-preview" aria-hidden="true">
-                        <p>Artist Portfolio Preview</p>
-                    </div>
-                </div>
-            </article>
+            <div class="upload-area">
+                <div class="upload-icon">📤</div>
+                <h3>Upload Media</h3>
+                <p>Drag and drop your files here or click to browse</p>
+                <p class="media-meta">Supports: MP4, MOV, PNG, JPG, GIF (Max 100MB)</p>
+            </div>
+
+            <button class="btn" style="margin-top: var(--spacing-md);">Start Upload</button>
         </section>
     </main>
 
@@ -78,11 +119,10 @@
     </footer>
 
     <script src="js/navigation.js" defer></script>
-    <script src="js/news-loader.js" defer></script>
     <script src="js/animations.js" defer></script>
 
     <noscript>
-        <p class="error-message">Enable JavaScript for full functionality (search, filters and dynamic content).</p>
+        <p class="error-message">Enable JavaScript for full functionality.</p>
     </noscript>
 </body>
 

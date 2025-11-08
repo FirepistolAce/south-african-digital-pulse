@@ -94,7 +94,7 @@ p {
   touch-action: manipulation;
 }
 
-/* Nav list - centered with better spacing */
+
 .nav-list {
   list-style: none;
   display: flex;
@@ -115,7 +115,7 @@ p {
   justify-content: center;
 }
 
-/* Nav items - centered with column layout */
+
 .nav-item {
   display: flex;
   flex-direction: column;
@@ -136,7 +136,7 @@ p {
   min-height: 70px;
 }
 
-/* Hover state - reveal text and subtle background */
+
 .nav-item:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
@@ -308,7 +308,7 @@ p {
   border-color: rgba(255,255,255,0.75);
 }
 
-/* CHANGED: Both homepage buttons now use teal styling */
+
 .hero-cta .btn {
   background: var(--secondary-color);
   color: var(--text-light);
@@ -968,11 +968,11 @@ a:focus, button:focus, input:focus {
 
 @media (max-width: 768px) {
   #nav-container .nav-item .nav-text {
-    display: none !important; /* hide text on mobile for cleaner look */
+    display: none !important; 
   }
 }
 
-/* CHANGED: Profile page buttons teal styling */
+
 .profile-card .btn,
 .profile-settings .btn {
   background: var(--secondary-color);
@@ -988,7 +988,6 @@ a:focus, button:focus, input:focus {
   background: var(--accent-color);
 }
 
-/* Ensure form button in profile also gets teal styling */
 .submit-btn {
   background: var(--secondary-color) !important;
   color: var(--text-light) !important;
@@ -1000,4 +999,234 @@ a:focus, button:focus, input:focus {
   transform: translateY(-3px) !important;
   box-shadow: 0 16px 40px rgba(60,127,127,0.18) !important;
   background: var(--accent-color) !important;
+}
+
+.profile-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.profile-card {
+  background: var(--text-light);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-light);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: flex-start;
+}
+
+.profile-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-light);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.profile-info h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.member-role {
+  color: var(--secondary-color);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.profile-actions {
+  margin-top: auto;
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.profile-settings {
+  background: var(--text-light);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-light);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: var(--spacing-sm);
+  border: 2px solid #e0e0e0;
+  border-radius: var(--border-radius);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px; 
+}
+
+
+.media-gallery {
+  margin: var(--spacing-xl) 0;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.media-item {
+  background: var(--text-light);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.media-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-medium);
+}
+
+.media-preview {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-sm);
+  overflow: hidden;
+}
+
+.media-preview img,
+.media-preview video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-preview .placeholder {
+  color: var(--text-light);
+  font-size: 3rem;
+}
+
+.media-info {
+  padding: var(--spacing-sm);
+}
+
+.media-info h3 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-xs);
+  font-size: 1.1rem;
+}
+
+.media-meta {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.upload-section {
+  background: var(--text-light);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-light);
+  margin-top: var(--spacing-xl);
+  text-align: center;
+}
+
+.upload-area {
+  border: 2px dashed var(--secondary-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xl);
+  margin: var(--spacing-md) 0;
+  background: rgba(60, 127, 127, 0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+  background: rgba(60, 127, 127, 0.1);
+  border-color: var(--accent-color);
+}
+
+.upload-icon {
+  font-size: 3rem;
+  color: var(--secondary-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+
+@media (max-width: 768px) {
+  .profile-card {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--spacing-md);
+  }
+  
+  .profile-avatar {
+    align-self: center;
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profile-actions {
+    justify-content: center;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .upload-area {
+    padding: var(--spacing-lg);
+  }
+}
+
+
+.filter-controls,
+.media-search {
+  display: none;
 }

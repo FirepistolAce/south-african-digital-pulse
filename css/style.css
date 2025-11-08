@@ -1238,20 +1238,21 @@ a:focus, button:focus, input:focus {
     width: 100%;
     height: auto;
     border-radius:8px;
-}/* Team Section Styles */
+}
+
+/* Team Section Styles - Profile Picture Section */
 .team-section {
     margin-bottom: var(--spacing-xl);
-    padding: var(--spacing-lg);
-    background: var(--text-light);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
 }
 
 .team-member {
     display: flex;
     gap: var(--spacing-lg);
     align-items: flex-start;
-    margin-top: var(--spacing-md);
+    background: var(--text-light);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-light);
 }
 
 .member-info {
@@ -1272,7 +1273,7 @@ a:focus, button:focus, input:focus {
 }
 
 /* Profile Picture Container */
-.member-photo-container {
+.member-photo {
     flex-shrink: 0;
     display: flex;
     justify-content: center;
@@ -1330,17 +1331,13 @@ a:focus, button:focus, input:focus {
         gap: var(--spacing-md);
     }
     
-    .member-photo-container {
+    .member-photo {
         order: -1; /* Move photo above text on mobile */
     }
     
     .profile-picture {
         width: 150px;
         height: 150px;
-    }
-    
-    .team-section {
-        padding: var(--spacing-md);
     }
 }
 
@@ -1352,20 +1349,4 @@ a:focus, button:focus, input:focus {
 .profile-picture:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* Animation for section entrance */
-.team-section {
-    animation: fadeInUp 0.6s ease-out;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
